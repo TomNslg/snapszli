@@ -1,0 +1,17 @@
+{
+  "name": "Snapszli",
+  "short_name": "Snapszli",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f0e8",
+  "theme_color": "#1a3d2e",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "kind": "snapszli-seed",
+  "note": "Seed from notebook; artificial sets use empirical 3/2/1 (paths).",
+  "label": "Leo vs Tom — match 3 (ouverte)",
+  "players": [
+    {
+      "id": "seed-leo",
+      "name": "Leo"
+    },
+    {
+      "id": "seed-tom",
+      "name": "Tom"
+    }
+  ],
+  "match": {
+    "id": "seed-leo-tom-3",
+    "playerA": "seed-leo",
+    "playerB": "seed-tom",
+    "startedAt": "2026-01-07T12:00:00.000Z",
+    "endedAt": null,
+    "setsA": 0,
+    "setsB": 1,
+    "status": "open",
+    "sets": [
+      {
+        "jeuxA": 2,
+        "jeuxB": 7,
+        "winner": "B",
+        "rounds": [
+          {
+            "id": "seed-leo-tom-3-s0-r0",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-leo",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 53,
+            "leftOut": 6
+          },
+          {
+            "id": "seed-leo-tom-3-s0-r1",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-tom",
+            "loserId": "seed-leo",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 16,
+            "leftOut": 19
+          },
+          {
+            "id": "seed-leo-tom-3-s0-r2",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-leo",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 41,
+            "leftOut": 3
+          },
+          {
+            "id": "seed-leo-tom-3-s0-r3",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-leo",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 21,
+            "leftOut": 14
+          },
+          {
+            "id": "seed-leo-tom-3-s0-r4",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-tom",
+            "loserId": "seed-leo",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 19,
+            "leftOut": 6
+          },
+          {
+            "id": "seed-leo-tom-3-s0-r5",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-leo",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 33,
+            "leftOut": 10
+          }
+        ]
+      }
+    ],
+    "source": "notebook"
+  }
+}

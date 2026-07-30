@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "kind": "snapszli-seed",
+  "note": "Set en cours 1:6 (non terminé).",
+  "label": "Tam vs Tom — match 1 (ouverte)",
+  "players": [
+    {
+      "id": "seed-tam",
+      "name": "Tam"
+    },
+    {
+      "id": "seed-tom",
+      "name": "Tom"
+    }
+  ],
+  "match": {
+    "id": "seed-tam-tom-1",
+    "playerA": "seed-tam",
+    "playerB": "seed-tom",
+    "startedAt": "2026-01-24T12:00:00.000Z",
+    "endedAt": null,
+    "setsA": 0,
+    "setsB": 0,
+    "status": "open",
+    "sets": [
+      {
+        "jeuxA": 1,
+        "jeuxB": 6,
+        "winner": null,
+        "rounds": [
+          {
+            "id": "seed-tam-tom-1-s0-r0",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-tam",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 39,
+            "leftOut": 14
+          },
+          {
+            "id": "seed-tam-tom-1-s0-r1",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-tam",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 33,
+            "leftOut": 8
+          },
+          {
+            "id": "seed-tam-tom-1-s0-r2",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-tam",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 12
+          },
+          {
+            "id": "seed-tam-tom-1-s0-r3",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-tam",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 14,
+            "leftOut": 21
+          }
+        ]
+      }
+    ],
+    "source": "notebook"
+  }
+}

@@ -1,0 +1,397 @@
+{
+  "version": 1,
+  "kind": "snapszli-seed-from-set-scores",
+  "note": "Reconstruit depuis scores de sets; 3/2/1 selon dist. empirique (paths réels).",
+  "label": "Faye vs Tom — match 20",
+  "players": [
+    {
+      "id": "seed-faye",
+      "name": "Faye"
+    },
+    {
+      "id": "seed-tom",
+      "name": "Tom"
+    }
+  ],
+  "match": {
+    "id": "seed-faye-tom-20",
+    "playerA": "seed-faye",
+    "playerB": "seed-tom",
+    "startedAt": "2026-01-20T12:00:00.000Z",
+    "endedAt": "2026-01-20T14:00:00.000Z",
+    "setsA": 3,
+    "setsB": 2,
+    "status": "done",
+    "sets": [
+      {
+        "jeuxA": 1,
+        "jeuxB": 7,
+        "winner": "B",
+        "rounds": [
+          {
+            "id": "seed-ft20-s0-r0",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 42,
+            "leftOut": 9
+          },
+          {
+            "id": "seed-ft20-s0-r1",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 35,
+            "leftOut": 9
+          },
+          {
+            "id": "seed-ft20-s0-r2",
+            "trumpSuit": "gland",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 34,
+            "leftOut": 5
+          },
+          {
+            "id": "seed-ft20-s0-r3",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 21,
+            "leftOut": 14
+          },
+          {
+            "id": "seed-ft20-s0-r4",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 34
+          }
+        ]
+      },
+      {
+        "jeuxA": 7,
+        "jeuxB": 0,
+        "winner": "A",
+        "rounds": [
+          {
+            "id": "seed-ft20-s1-r0",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 56,
+            "leftOut": 7
+          },
+          {
+            "id": "seed-ft20-s1-r1",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 47,
+            "leftOut": 10
+          },
+          {
+            "id": "seed-ft20-s1-r2",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 15,
+            "leftOut": 25
+          },
+          {
+            "id": "seed-ft20-s1-r3",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": true,
+            "loserFixed": 48,
+            "leftOut": 23
+          }
+        ]
+      },
+      {
+        "jeuxA": 8,
+        "jeuxB": 6,
+        "winner": "A",
+        "rounds": [
+          {
+            "id": "seed-ft20-s2-r0",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 23,
+            "leftOut": 9
+          },
+          {
+            "id": "seed-ft20-s2-r1",
+            "trumpSuit": "gland",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 31,
+            "leftOut": 11
+          },
+          {
+            "id": "seed-ft20-s2-r2",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 39,
+            "leftOut": 15
+          },
+          {
+            "id": "seed-ft20-s2-r3",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 50,
+            "leftOut": 5
+          },
+          {
+            "id": "seed-ft20-s2-r4",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 54,
+            "leftOut": 2
+          },
+          {
+            "id": "seed-ft20-s2-r5",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 48,
+            "leftOut": 11
+          },
+          {
+            "id": "seed-ft20-s2-r6",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 17
+          },
+          {
+            "id": "seed-ft20-s2-r7",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": true,
+            "loserFixed": 19,
+            "leftOut": 0
+          }
+        ]
+      },
+      {
+        "jeuxA": 4,
+        "jeuxB": 9,
+        "winner": "B",
+        "rounds": [
+          {
+            "id": "seed-ft20-s3-r0",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 52,
+            "leftOut": 13
+          },
+          {
+            "id": "seed-ft20-s3-r1",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 43,
+            "leftOut": 13
+          },
+          {
+            "id": "seed-ft20-s3-r2",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 14,
+            "leftOut": 13
+          },
+          {
+            "id": "seed-ft20-s3-r3",
+            "trumpSuit": "gland",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 37
+          },
+          {
+            "id": "seed-ft20-s3-r4",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 15,
+            "leftOut": 10
+          },
+          {
+            "id": "seed-ft20-s3-r5",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 41,
+            "leftOut": 1
+          },
+          {
+            "id": "seed-ft20-s3-r6",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 24
+          }
+        ]
+      },
+      {
+        "jeuxA": 7,
+        "jeuxB": 4,
+        "winner": "A",
+        "rounds": [
+          {
+            "id": "seed-ft20-s4-r0",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 55,
+            "leftOut": 7
+          },
+          {
+            "id": "seed-ft20-s4-r1",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 1
+          },
+          {
+            "id": "seed-ft20-s4-r2",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 35,
+            "leftOut": 8
+          },
+          {
+            "id": "seed-ft20-s4-r3",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 31,
+            "leftOut": 24
+          },
+          {
+            "id": "seed-ft20-s4-r4",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 16,
+            "leftOut": 13
+          },
+          {
+            "id": "seed-ft20-s4-r5",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-tom",
+            "loserId": "seed-faye",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 47,
+            "leftOut": 19
+          },
+          {
+            "id": "seed-ft20-s4-r6",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-faye",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 46,
+            "leftOut": 1
+          }
+        ]
+      }
+    ],
+    "source": "set-scores-only",
+    "setScores": [
+      {
+        "Faye": 1,
+        "Tom": 7
+      },
+      {
+        "Faye": 7,
+        "Tom": 0
+      },
+      {
+        "Faye": 8,
+        "Tom": 6
+      },
+      {
+        "Faye": 4,
+        "Tom": 9
+      },
+      {
+        "Faye": 7,
+        "Tom": 4
+      }
+    ],
+    "declaredWinner": "Faye"
+  }
+}

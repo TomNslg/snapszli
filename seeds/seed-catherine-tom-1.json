@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "kind": "snapszli-seed",
+  "note": "Seed from notebook; artificial sets use empirical 3/2/1 (paths).",
+  "label": "Catherine vs Tom — match 1",
+  "players": [
+    {
+      "id": "seed-catherine",
+      "name": "Catherine"
+    },
+    {
+      "id": "seed-tom",
+      "name": "Tom"
+    }
+  ],
+  "match": {
+    "id": "seed-catherine-tom-1",
+    "playerA": "seed-catherine",
+    "playerB": "seed-tom",
+    "startedAt": "2026-01-13T12:00:00.000Z",
+    "endedAt": "2026-01-13T14:00:00.000Z",
+    "setsA": 1,
+    "setsB": 3,
+    "status": "done",
+    "sets": [
+      {
+        "jeuxA": 7,
+        "jeuxB": 5,
+        "winner": "A",
+        "rounds": [
+          {
+            "id": "seed-catherine-tom-1-s0-r0",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-catherine",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 56,
+            "leftOut": 19
+          },
+          {
+            "id": "seed-catherine-tom-1-s0-r1",
+            "trumpSuit": "gland",
+            "winnerId": "seed-catherine",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 37
+          },
+          {
+            "id": "seed-catherine-tom-1-s0-r2",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 17,
+            "leftOut": 9
+          },
+          {
+            "id": "seed-catherine-tom-1-s0-r3",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-catherine",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 17,
+            "leftOut": 7
+          },
+          {
+            "id": "seed-catherine-tom-1-s0-r4",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 46,
+            "leftOut": 6
+          },
+          {
+            "id": "seed-catherine-tom-1-s0-r5",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 30,
+            "leftOut": 11
+          },
+          {
+            "id": "seed-catherine-tom-1-s0-r6",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-catherine",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 51,
+            "leftOut": 16
+          }
+        ]
+      },
+      {
+        "jeuxA": 6,
+        "jeuxB": 8,
+        "winner": "B",
+        "rounds": [
+          {
+            "id": "seed-catherine-tom-1-s1-r0",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-catherine",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 22
+          },
+          {
+            "id": "seed-catherine-tom-1-s1-r1",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 26
+          },
+          {
+            "id": "seed-catherine-tom-1-s1-r2",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 56,
+            "leftOut": 2
+          },
+          {
+            "id": "seed-catherine-tom-1-s1-r3",
+            "trumpSuit": "coeur",
+            "winnerId": "seed-catherine",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 16,
+            "leftOut": 4
+          },
+          {
+            "id": "seed-catherine-tom-1-s1-r4",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-catherine",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 49,
+            "leftOut": 10
+          },
+          {
+            "id": "seed-catherine-tom-1-s1-r5",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 9,
+            "leftOut": 29
+          },
+          {
+            "id": "seed-catherine-tom-1-s1-r6",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 27,
+            "leftOut": 24
+          }
+        ]
+      },
+      {
+        "jeuxA": 0,
+        "jeuxB": 7,
+        "winner": "B",
+        "rounds": [
+          {
+            "id": "seed-catherine-tom-1-s2-r0",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 35,
+            "leftOut": 10
+          },
+          {
+            "id": "seed-catherine-tom-1-s2-r1",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 30,
+            "leftOut": 3
+          },
+          {
+            "id": "seed-catherine-tom-1-s2-r2",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 42,
+            "leftOut": 18
+          },
+          {
+            "id": "seed-catherine-tom-1-s2-r3",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 19
+          }
+        ]
+      },
+      {
+        "jeuxA": 2,
+        "jeuxB": 8,
+        "winner": "B",
+        "rounds": [
+          {
+            "id": "seed-catherine-tom-1-s3-r0",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 52,
+            "leftOut": 0
+          },
+          {
+            "id": "seed-catherine-tom-1-s3-r1",
+            "trumpSuit": "feuille",
+            "winnerId": "seed-catherine",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 33,
+            "leftOut": 7
+          },
+          {
+            "id": "seed-catherine-tom-1-s3-r2",
+            "trumpSuit": "gland",
+            "winnerId": "seed-catherine",
+            "loserId": "seed-tom",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 42,
+            "leftOut": 3
+          },
+          {
+            "id": "seed-catherine-tom-1-s3-r3",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 31,
+            "leftOut": 8
+          },
+          {
+            "id": "seed-catherine-tom-1-s3-r4",
+            "trumpSuit": "grelot",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 0,
+            "leftOut": 7
+          },
+          {
+            "id": "seed-catherine-tom-1-s3-r5",
+            "trumpSuit": "gland",
+            "winnerId": "seed-tom",
+            "loserId": "seed-catherine",
+            "marriages": [],
+            "pariPerdu": false,
+            "loserFixed": 8,
+            "leftOut": 4
+          }
+        ]
+      }
+    ],
+    "source": "notebook"
+  }
+}
