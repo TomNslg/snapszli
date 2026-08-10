@@ -71,7 +71,13 @@
     });
     const res = await fetch(`https://api.github.com${path}`, { ...options, headers });
     if (!res.ok) {
-      const err = new Error(`GitHub ${res.status}`);
+      let detail = "";
+      try {
+        detail = await res.text();
+      } catch {
+        /* ignore */
+      }
+      const err = new Error(`GitHub ${res.status}${detail ? `: ${detail.slice(0, 240)}` : ""}`);
       err.status = res.status;
       throw err;
     }
@@ -196,11 +202,7 @@
     };
     const text = `${JSON.stringify(body, null, 2)}\n`;
     await writeText(dataPath(`${id}.json`), text, `snapszli: sync device ${id.slice(0, 8)}`);
-    try {
-      await updateManifest(id);
-    } catch {
-      /* manifest may already list this device */
-    }
+    await updateManifest(id);
   }
 
   function isEnabled() {

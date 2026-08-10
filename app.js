@@ -485,7 +485,9 @@
     if (window.SnapszliSync?.isEnabled()) {
       if (SnapszliSync.canWrite()) {
         actions.append(btn("Synchroniser", () => {
-          refreshCloudSync().then(() => alert("Synchronisation terminée.")).catch(() => alert("Sync impossible (hors ligne ?)."));
+          refreshCloudSync()
+            .then(() => alert("Synchronisation terminée (données envoyées au Git)."))
+            .catch((e) => alert(syncErrorMessage(e)));
         }, "secondary"));
       } else {
         actions.append(btn("Activer sync Git", () => {
@@ -506,7 +508,12 @@
       if (!confirm("Remplacer toutes les données locales par cette sauvegarde ?")) return;
       try {
         await importBackupFromFile(file);
-        alert("Restauration terminée.");
+        if (window.SnapszliSync?.canWrite()) {
+          await pushToCloud();
+          alert("Restauration terminée et envoyée au cloud.");
+        } else {
+          alert("Restauration terminée.");
+        }
         go("home");
       } catch (e) {
         alert(e.message || String(e));
@@ -1479,6 +1486,23 @@
   let syncRefreshing = false;
   let syncVisibilityBound = false;
 
+  async function pushToCloud() {
+    if (!window.SnapszliSync?.canWrite()) {
+      throw new Error("Jeton sync manquant — activez sync Git d'abord.");
+    }
+    const payload = buildBackupPayload(getDb());
+    payload.deviceId = SnapszliSync.getDeviceId();
+    await SnapszliSync.push(payload);
+  }
+
+  function syncErrorMessage(err) {
+    const msg = err?.message || String(err);
+    if (msg.includes("401") || msg.includes("403")) {
+      return `${msg}\n\nVérifiez le jeton GitHub (Contents : lecture + écriture sur TomNslg/snapszli).`;
+    }
+    return msg;
+  }
+
   async function refreshCloudSync() {
     if (!window.SnapszliSync?.isEnabled() || syncRefreshing) return;
     syncRefreshing = true;
@@ -1487,15 +1511,15 @@
       localPayload.deviceId = SnapszliSync.getDeviceId();
       const remotePayloads = await SnapszliSync.pullAll();
       const merged = mergeDevicePayloads([...remotePayloads, localPayload]);
-      if (!merged) return;
-      const localTs = backupContentTs(load());
-      const mergedTs = backupContentTs(merged);
-      if (mergedTs > localTs || merged.matches.length > (load().matches?.length || 0)) {
-        applyBackupPayload(merged, { skipSync: true });
-        render();
+      if (merged) {
+        const localTs = backupContentTs(load());
+        const mergedTs = backupContentTs(merged);
+        if (mergedTs > localTs || merged.matches.length > (load().matches?.length || 0)) {
+          applyBackupPayload(merged, { skipSync: true });
+          render();
+        }
       }
-    } catch {
-      /* offline */
+      if (SnapszliSync.canWrite()) await pushToCloud();
     } finally {
       syncRefreshing = false;
     }
@@ -1519,21 +1543,18 @@
       }
 
       if (SnapszliSync.canWrite()) {
-        const myRemote = remotePayloads.find((p) => p.deviceId === SnapszliSync.getDeviceId());
-        const currentPayload = buildBackupPayload(getDb());
-        currentPayload.deviceId = SnapszliSync.getDeviceId();
-        const remoteOwnTs = myRemote ? backupContentTs(myRemote) : "";
-        if (!myRemote || backupContentTs(currentPayload) > remoteOwnTs) {
-          await SnapszliSync.push(currentPayload);
-        }
+        await pushToCloud();
       }
-    } catch {
-      /* offline or token missing */
+    } catch (err) {
+      console.warn("snapszli sync init", err);
     }
 
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible") refreshCloudSync();
-    });
+    if (!syncVisibilityBound) {
+      syncVisibilityBound = true;
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") refreshCloudSync();
+      });
+    }
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
