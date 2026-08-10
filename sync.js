@@ -2,6 +2,8 @@
 (() => {
   const DEVICE_KEY = "snapszli-device-id";
   const TOKEN_KEY = "snapszli-sync-token";
+  const LAST_ERROR_KEY = "snapszli-sync-last-error";
+  const BUILD = "sync-2026-08-10d";
   const config = window.SNAPSZLI_SYNC_CONFIG || { enabled: false };
 
   let enabled = false;
@@ -22,6 +24,15 @@
 
   function hasToken() {
     return !!getToken();
+  }
+
+  function setLastError(msg) {
+    if (msg) localStorage.setItem(LAST_ERROR_KEY, String(msg).slice(0, 500));
+    else localStorage.removeItem(LAST_ERROR_KEY);
+  }
+
+  function getLastError() {
+    return localStorage.getItem(LAST_ERROR_KEY) || "";
   }
 
   function parseRepo(slug) {
@@ -122,7 +133,7 @@
   }
 
   async function writeText(path, text, message) {
-    if (!getToken()) throw new Error("sync token missing");
+    if (!getToken()) throw new Error("Jeton sync manquant.");
     let sha;
     try {
       sha = (await readMeta(path)).sha;
@@ -193,7 +204,8 @@
   }
 
   async function push(payload) {
-    if (!enabled || !getToken()) return;
+    if (!enabled) throw new Error("Sync Git non initialisé.");
+    if (!getToken()) throw new Error("Jeton sync manquant.");
     const id = getDeviceId();
     const body = {
       ...payload,
@@ -201,8 +213,27 @@
       kind: "snapszli-backup",
     };
     const text = `${JSON.stringify(body, null, 2)}\n`;
+    const kb = Math.round(text.length / 1024);
+    if (text.length > 900000) {
+      throw new Error(`Sauvegarde trop volumineuse (${kb} Ko) pour l'API GitHub.`);
+    }
     await writeText(dataPath(`${id}.json`), text, `snapszli: sync device ${id.slice(0, 8)}`);
     await updateManifest(id);
+    setLastError("");
+    return { deviceId: id, kb };
+  }
+
+  async function testWrite() {
+    if (!enabled) throw new Error("Sync Git non initialisé.");
+    if (!getToken()) throw new Error("Jeton sync manquant.");
+    const stamp = new Date().toISOString();
+    await writeText(
+      dataPath(".sync-test.json"),
+      `${JSON.stringify({ ok: true, at: stamp, build: BUILD }, null, 2)}\n`,
+      "snapszli: sync connectivity test",
+    );
+    setLastError("");
+    return stamp;
   }
 
   function isEnabled() {
@@ -213,15 +244,23 @@
     return enabled && hasToken();
   }
 
+  function getBuild() {
+    return BUILD;
+  }
+
   window.SnapszliSync = {
     init,
     push,
     pullAll,
+    testWrite,
     isEnabled,
     canWrite,
     hasToken,
     setToken,
     getDeviceId,
+    getBuild,
+    getLastError,
+    setLastError,
     contentTs,
   };
 })();

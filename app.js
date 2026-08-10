@@ -442,11 +442,35 @@
     </div>`);
     const stack = root.querySelector(".stack");
     if (window.SnapszliSync?.isEnabled()) {
+      const build = SnapszliSync.getBuild();
+      const parties = db.matches?.length || 0;
+      const lastErr = SnapszliSync.getLastError();
       if (SnapszliSync.canWrite()) {
         const id = SnapszliSync.getDeviceId().slice(0, 8);
-        stack.append(el(`<p class="hint" style="margin-bottom:4px">Sync Git · appareil ${escapeHtml(id)}</p>`));
+        stack.append(el(`<p class="hint" style="margin-bottom:4px">Sync Git ${escapeHtml(build)} · appareil ${escapeHtml(id)} · ${parties} parties</p>`));
+        if (lastErr) {
+          stack.append(el(`<p class="hint" style="margin-bottom:4px;color:#b33">Dernière erreur sync : ${escapeHtml(lastErr)}</p>`));
+        }
       } else {
-        stack.append(el(`<p class="hint" style="margin-bottom:4px">Sync Git disponible — activez avec le jeton partagé.</p>`));
+        const syncCard = el(`<div class="card" style="margin-bottom:10px">
+          <p class="hint" style="margin:0 0 8px">Sync Git ${escapeHtml(build)} — collez le jeton GitHub (Contents lecture+écriture).</p>
+          <textarea id="sync-token" rows="3" placeholder="github_pat_…" style="width:100%;font:inherit"></textarea>
+        </div>`);
+        stack.append(syncCard);
+        stack.append(btn("Enregistrer le jeton", async () => {
+          const token = syncCard.querySelector("#sync-token").value.trim();
+          if (!token) return alert("Jeton vide.");
+          SnapszliSync.setToken(token);
+          try {
+            await SnapszliSync.testWrite();
+            await initCloudSync();
+            alert("Jeton OK — test d'écriture Git réussi.");
+            go("home");
+          } catch (e) {
+            SnapszliSync.setLastError(e.message || String(e));
+            alert(syncErrorMessage(e));
+          }
+        }, "secondary"));
       }
     }
     if (active) {
@@ -486,18 +510,21 @@
       if (SnapszliSync.canWrite()) {
         actions.append(btn("Synchroniser", () => {
           refreshCloudSync()
-            .then(() => alert("Synchronisation terminée (données envoyées au Git)."))
-            .catch((e) => alert(syncErrorMessage(e)));
+            .then((info) => alert(`Synchronisation OK — ${info.parties} parties envoyées (${info.kb} Ko).`))
+            .catch((e) => {
+              SnapszliSync.setLastError(e.message || String(e));
+              alert(syncErrorMessage(e));
+              go("home");
+            });
         }, "secondary"));
-      } else {
-        actions.append(btn("Activer sync Git", () => {
-          const token = prompt("Collez le jeton GitHub partagé :");
-          if (!token) return;
-          SnapszliSync.setToken(token.trim());
-          initCloudSync().then(() => {
-            alert("Sync activée.");
-            go("home");
-          }).catch(() => alert("Jeton refusé ou hors ligne."));
+        actions.append(btn("Test Git", async () => {
+          try {
+            const at = await SnapszliSync.testWrite();
+            alert(`Test d'écriture Git OK (${at}).`);
+          } catch (e) {
+            SnapszliSync.setLastError(e.message || String(e));
+            alert(syncErrorMessage(e));
+          }
         }, "secondary"));
       }
     }
@@ -509,8 +536,8 @@
       try {
         await importBackupFromFile(file);
         if (window.SnapszliSync?.canWrite()) {
-          await pushToCloud();
-          alert("Restauration terminée et envoyée au cloud.");
+          const info = await pushToCloud();
+          alert(`Restauration terminée — ${info.parties} parties envoyées au Git (${info.kb} Ko).`);
         } else {
           alert("Restauration terminée.");
         }
@@ -1488,11 +1515,15 @@
 
   async function pushToCloud() {
     if (!window.SnapszliSync?.canWrite()) {
-      throw new Error("Jeton sync manquant — activez sync Git d'abord.");
+      throw new Error("Jeton sync manquant — enregistrez le jeton Git d'abord.");
     }
-    const payload = buildBackupPayload(getDb());
+    const db = getDb();
+    const parties = db.matches?.length || 0;
+    if (!parties) throw new Error("Aucune partie locale à envoyer.");
+    const payload = buildBackupPayload(db);
     payload.deviceId = SnapszliSync.getDeviceId();
-    await SnapszliSync.push(payload);
+    const result = await SnapszliSync.push(payload);
+    return { parties, kb: result.kb, deviceId: result.deviceId };
   }
 
   function syncErrorMessage(err) {
@@ -1504,7 +1535,10 @@
   }
 
   async function refreshCloudSync() {
-    if (!window.SnapszliSync?.isEnabled() || syncRefreshing) return;
+    if (!window.SnapszliSync?.isEnabled()) {
+      throw new Error("Sync Git désactivé.");
+    }
+    if (syncRefreshing) throw new Error("Synchronisation déjà en cours.");
     syncRefreshing = true;
     try {
       const localPayload = buildBackupPayload(getDb());
@@ -1519,7 +1553,10 @@
           render();
         }
       }
-      if (SnapszliSync.canWrite()) await pushToCloud();
+      return await pushToCloud();
+    } catch (err) {
+      SnapszliSync.setLastError?.(err.message || String(err));
+      throw err;
     } finally {
       syncRefreshing = false;
     }
@@ -1542,10 +1579,11 @@
         }
       }
 
-      if (SnapszliSync.canWrite()) {
+      if (SnapszliSync.canWrite() && getDb().matches?.length) {
         await pushToCloud();
       }
     } catch (err) {
+      SnapszliSync.setLastError?.(err.message || String(err));
       console.warn("snapszli sync init", err);
     }
 

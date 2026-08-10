@@ -1,11 +1,8 @@
 /* Snapszli — offline shell (cache app assets; game data stays in localStorage). */
-const CACHE = "snapszli-shell-v4";
+const CACHE = "snapszli-shell-v5";
 const PRECACHE = [
   "./",
   "./index.html",
-  "./app.js",
-  "./sync.js",
-  "./sync-config.js",
   "./styles.css",
   "./suits.js",
   "./manifest.json",
@@ -26,6 +23,10 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+function isAppScript(url) {
+  return /\/(app|sync|sync-config)\.js(\?|$)/.test(url.pathname);
+}
+
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
@@ -33,7 +34,21 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // App shell: cache-first. Seeds: network-first, fall back to cache.
+  if (isAppScript(url)) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req)),
+    );
+    return;
+  }
+
   const isSeed = url.pathname.includes("/seeds/");
 
   if (isSeed) {
