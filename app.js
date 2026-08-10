@@ -42,8 +42,9 @@
       db.settings.contentUpdatedAt = new Date().toISOString();
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
-    if (!opts.skipSync && window.SnapszliSync?.isEnabled()) {
+    if (!opts.skipSync && window.SnapszliSync?.isEnabled() && window.SnapszliSync.canWrite()) {
       const payload = buildBackupPayload(db);
+      payload.deviceId = window.SnapszliSync.getDeviceId();
       window.SnapszliSync.push(payload).catch(() => {});
     }
   }
@@ -104,6 +105,88 @@
       matches: db.matches || [],
       settings: { ...(db.settings || {}), lastBackupAt: exportedAt, contentUpdatedAt: exportedAt },
       skippedSeeds: getSkippedSeeds(),
+    };
+  }
+
+  function backupContentTs(payload) {
+    return payload?.settings?.contentUpdatedAt || payload?.exportedAt || "";
+  }
+
+  function mergeDevicePayloads(payloads) {
+    const valid = (payloads || []).filter((p) => p && p.kind === "snapszli-backup");
+    if (!valid.length) return null;
+    const sorted = valid.slice().sort((a, b) => backupContentTs(a).localeCompare(backupContentTs(b)));
+
+    const playersByName = new Map();
+    const idToCanonical = new Map();
+
+    function mapPlayer(player) {
+      const name = String(player.name || "").trim();
+      if (!name) return;
+      if (!playersByName.has(name)) {
+        const p = { ...player, name, archived: !!player.archived };
+        playersByName.set(name, p);
+        idToCanonical.set(player.id, p.id);
+        return;
+      }
+      const existing = playersByName.get(name);
+      idToCanonical.set(player.id, existing.id);
+      if (!player.archived) existing.archived = false;
+    }
+
+    for (const payload of sorted) {
+      for (const player of payload.players || []) mapPlayer(player);
+    }
+
+    function remapId(id) {
+      return idToCanonical.get(id) || id;
+    }
+
+    function remapMatch(match) {
+      const m = { ...match };
+      m.playerA = remapId(m.playerA);
+      m.playerB = remapId(m.playerB);
+      if (Array.isArray(m.sets)) {
+        m.sets = m.sets.map((s) => ({
+          ...s,
+          rounds: (s.rounds || []).map((r) => ({
+            ...r,
+            winnerId: remapId(r.winnerId),
+            loserId: remapId(r.loserId),
+            marriages: (r.marriages || []).map((mar) => ({
+              ...mar,
+              playerId: remapId(mar.playerId),
+            })),
+          })),
+        }));
+      }
+      return m;
+    }
+
+    const matchesById = new Map();
+    for (const payload of sorted) {
+      for (const match of payload.matches || []) {
+        matchesById.set(match.id, remapMatch(match));
+      }
+    }
+
+    const settings = {};
+    let skippedSeeds = [];
+    for (const payload of sorted) {
+      if (payload.settings && typeof payload.settings === "object") Object.assign(settings, payload.settings);
+      if (Array.isArray(payload.skippedSeeds)) {
+        skippedSeeds = [...new Set([...skippedSeeds, ...payload.skippedSeeds])];
+      }
+    }
+
+    return {
+      kind: "snapszli-backup",
+      version: 1,
+      exportedAt: sorted[sorted.length - 1]?.exportedAt || new Date().toISOString(),
+      players: [...playersByName.values()],
+      matches: [...matchesById.values()],
+      settings,
+      skippedSeeds,
     };
   }
 
@@ -359,7 +442,12 @@
     </div>`);
     const stack = root.querySelector(".stack");
     if (window.SnapszliSync?.isEnabled()) {
-      stack.append(el(`<p class="hint" style="margin-bottom:4px">Sync cloud · salle partagée</p>`));
+      if (SnapszliSync.canWrite()) {
+        const id = SnapszliSync.getDeviceId().slice(0, 8);
+        stack.append(el(`<p class="hint" style="margin-bottom:4px">Sync Git · appareil ${escapeHtml(id)}</p>`));
+      } else {
+        stack.append(el(`<p class="hint" style="margin-bottom:4px">Sync Git disponible — activez avec le jeton partagé.</p>`));
+      }
     }
     if (active) {
       stack.append(
@@ -394,6 +482,23 @@
       }),
       btn("Restaurer", () => backupBlock.querySelector("#backup-file").click(), "secondary"),
     );
+    if (window.SnapszliSync?.isEnabled()) {
+      if (SnapszliSync.canWrite()) {
+        actions.append(btn("Synchroniser", () => {
+          refreshCloudSync().then(() => alert("Synchronisation terminée.")).catch(() => alert("Sync impossible (hors ligne ?)."));
+        }, "secondary"));
+      } else {
+        actions.append(btn("Activer sync Git", () => {
+          const token = prompt("Collez le jeton GitHub partagé :");
+          if (!token) return;
+          SnapszliSync.setToken(token.trim());
+          initCloudSync().then(() => {
+            alert("Sync activée.");
+            go("home");
+          }).catch(() => alert("Jeton refusé ou hors ligne."));
+        }, "secondary"));
+      }
+    }
     backupBlock.querySelector("#backup-file").onchange = async (ev) => {
       const file = ev.target.files && ev.target.files[0];
       ev.target.value = "";
@@ -1371,37 +1476,64 @@
     app.replaceChildren(node);
   }
 
-  async function initCloudSync() {
-    if (!window.SnapszliSync) return;
-    const applyRemote = (remote) => {
-      try {
-        const local = load();
-        const remoteTs = SnapszliSync.contentTs(remote);
-        const localTs = local.settings?.contentUpdatedAt || "";
-        const localEmpty = !local.matches.length && !local.players.length;
-        if (remoteTs > localTs || (localEmpty && remote.matches?.length)) {
-          applyBackupPayload(remote, { skipSync: true });
-          render();
-        }
-      } catch {
-        /* ignore bad remote payload */
-      }
-    };
-    if (!SnapszliSync.init(applyRemote)) return;
-    const db = getDb();
+  let syncRefreshing = false;
+  let syncVisibilityBound = false;
+
+  async function refreshCloudSync() {
+    if (!window.SnapszliSync?.isEnabled() || syncRefreshing) return;
+    syncRefreshing = true;
     try {
-      const remote = await SnapszliSync.pullOnce();
-      if (!remote) {
-        await SnapszliSync.push(buildBackupPayload(db));
-        return;
+      const localPayload = buildBackupPayload(getDb());
+      localPayload.deviceId = SnapszliSync.getDeviceId();
+      const remotePayloads = await SnapszliSync.pullAll();
+      const merged = mergeDevicePayloads([...remotePayloads, localPayload]);
+      if (!merged) return;
+      const localTs = backupContentTs(load());
+      const mergedTs = backupContentTs(merged);
+      if (mergedTs > localTs || merged.matches.length > (load().matches?.length || 0)) {
+        applyBackupPayload(merged, { skipSync: true });
+        render();
       }
-      const remoteTs = SnapszliSync.contentTs(remote);
-      const localTs = db.settings?.contentUpdatedAt || "";
-      if (remoteTs > localTs) applyRemote(remote);
-      else if (localTs > remoteTs) await SnapszliSync.push(buildBackupPayload(db));
     } catch {
       /* offline */
+    } finally {
+      syncRefreshing = false;
     }
+  }
+
+  async function initCloudSync() {
+    if (!window.SnapszliSync?.init()) return;
+
+    const localPayload = buildBackupPayload(getDb());
+    localPayload.deviceId = SnapszliSync.getDeviceId();
+
+    try {
+      const remotePayloads = await SnapszliSync.pullAll();
+      const merged = mergeDevicePayloads([...remotePayloads, localPayload]);
+      if (merged) {
+        const localTs = backupContentTs(localPayload);
+        const mergedTs = backupContentTs(merged);
+        if (mergedTs > localTs || merged.matches.length > localPayload.matches.length) {
+          applyBackupPayload(merged, { skipSync: true });
+        }
+      }
+
+      if (SnapszliSync.canWrite()) {
+        const myRemote = remotePayloads.find((p) => p.deviceId === SnapszliSync.getDeviceId());
+        const currentPayload = buildBackupPayload(getDb());
+        currentPayload.deviceId = SnapszliSync.getDeviceId();
+        const remoteOwnTs = myRemote ? backupContentTs(myRemote) : "";
+        if (!myRemote || backupContentTs(currentPayload) > remoteOwnTs) {
+          await SnapszliSync.push(currentPayload);
+        }
+      }
+    } catch {
+      /* offline or token missing */
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") refreshCloudSync();
+    });
   }
 
   document.addEventListener("DOMContentLoaded", async () => {

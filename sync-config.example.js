@@ -1,13 +1,8 @@
-/** Copy to sync-config.js and set enabled + firebase (see sharing-setup.md). */
+/** Copy for local overrides — production uses sync-config.js + in-app token. */
 window.SNAPSZLI_SYNC_CONFIG = {
-  enabled: false,
-  firebase: {
-    apiKey: "",
-    authDomain: "",
-    databaseURL: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: "",
-  },
+  enabled: true,
+  repo: "TomNslg/snapszli",
+  branch: "main",
+  dataPath: "data/devices",
+  token: "",
 };
