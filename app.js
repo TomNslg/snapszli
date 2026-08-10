@@ -1515,9 +1515,12 @@
 
   function syncErrorMessage(err) {
     const msg = err?.message || String(err);
-    if (msg.includes("401") || msg.includes("403")) {
+    if (msg.includes("401")) {
       SnapszliSync.clearToken?.();
-      return `${msg}\n\nJeton effacé. Collez-le à nouveau via « Changer le jeton » (Contents : lecture + écriture sur TomNslg/snapszli).`;
+      return `${msg}\n\nJeton invalide ou expiré — recréez-le et collez-le via « Changer le jeton ».`;
+    }
+    if (msg.includes("403")) {
+      return `${msg}\n\nLe jeton est reconnu mais refuse l'écriture. Essayez un jeton classique (scope « repo ») — voir sharing-setup.md.\n\nFine-grained : Repository access = TomNslg/snapszli uniquement, Contents = Read and write (pas Read only).`;
     }
     return msg;
   }
@@ -1525,8 +1528,8 @@
   function appendTokenForm(stack, build) {
     const syncCard = el(`<div class="card" style="margin-bottom:10px">
       <p class="hint" style="margin:0 0 8px">Sync Git ${escapeHtml(build)} — collez le jeton GitHub (Contents lecture+écriture).</p>
-      <textarea id="sync-token" rows="4" placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%;font:inherit"></textarea>
-      <p class="hint" style="margin:8px 0 0">Copiez le jeton entier, sans espace avant/après.</p>
+      <textarea id="sync-token" rows="4" placeholder="ghp_… ou github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%;font:inherit"></textarea>
+      <p class="hint" style="margin:8px 0 0">Jeton classique (scope « repo », ghp_…) recommandé. Copiez-le en entier.</p>
     </div>`);
     stack.append(syncCard);
     stack.append(btn("Enregistrer le jeton", async () => {
