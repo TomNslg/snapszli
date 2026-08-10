@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-08-10T21:52:45.512Z",
+  "exportedAt": "2026-08-10T21:53:35.282Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -43,7 +43,7 @@
       "id": "ms7ypqtq-ug1wj1",
       "name": "Lionel",
       "archived": false,
-      "includeArtificialPoints": false
+      "includeArtificialPoints": true
     },
     {
       "id": "msk7na73-k0y6kq",
@@ -11416,8 +11416,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-08-10T21:52:45.512Z",
-    "lastBackupAt": "2026-08-10T21:52:45.512Z"
+    "contentUpdatedAt": "2026-08-10T21:53:35.282Z",
+    "lastBackupAt": "2026-08-10T21:53:35.282Z"
   },
   "skippedSeeds": [],
   "deviceId": "0c852687-b78b-4818-a589-907d59404733"
