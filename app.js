@@ -42,6 +42,10 @@
       db.settings.contentUpdatedAt = new Date().toISOString();
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    if (!opts.skipSync && window.SnapszliSync?.isEnabled()) {
+      const payload = buildBackupPayload(db);
+      window.SnapszliSync.push(payload).catch(() => {});
+    }
   }
 
   function getDb() {
@@ -142,7 +146,7 @@
     go("home");
   }
 
-  function applyBackupPayload(payload) {
+  function applyBackupPayload(payload, opts = {}) {
     if (!payload || payload.kind !== "snapszli-backup") {
       throw new Error("Fichier non reconnu (attendu: sauvegarde Snapszli).");
     }
@@ -159,7 +163,7 @@
     db.settings.lastBackupAt = payload.exportedAt || db.settings.lastBackupAt || now;
     db.settings.contentUpdatedAt = db.settings.lastBackupAt;
     if (Array.isArray(payload.skippedSeeds)) setSkippedSeeds(payload.skippedSeeds);
-    save(db, { skipTouch: true });
+    save(db, { skipTouch: true, skipSync: !!opts.skipSync });
     return db;
   }
 
@@ -307,6 +311,38 @@
       .replace(/"/g, "&quot;");
   }
 
+  function draftWinnerFixed(draft) {
+    return Math.max(0, 120 - (Number(draft.loserFixed) || 0) - (Number(draft.leftOut) || 0));
+  }
+
+  function setDraftFixedPair(draft, loserFixed, winnerFixed) {
+    draft.loserFixed = clampInt(loserFixed, 0, 120);
+    const wf = clampInt(winnerFixed, 0, 120);
+    draft.leftOut = Math.max(0, 120 - draft.loserFixed - wf);
+  }
+
+  function attachClearZeroInput(input, getValue, setValue, onAfter) {
+    const refresh = () => {
+      const v = getValue();
+      if (document.activeElement !== input) input.value = String(v);
+    };
+    input.addEventListener("focus", () => {
+      if (input.value === "0") input.value = "";
+    });
+    input.addEventListener("blur", () => {
+      const raw = input.value.trim();
+      setValue(raw === "" ? 0 : clampInt(raw, 0, 120));
+      input.value = String(getValue());
+      onAfter?.();
+    });
+    input.addEventListener("input", () => {
+      const raw = input.value.trim();
+      if (raw === "" || raw === "-") return;
+      setValue(clampInt(raw, 0, 120));
+    });
+    refresh();
+  }
+
   /* ---------- Views ---------- */
 
   function isUnfinishedMatch(m) {
@@ -322,6 +358,9 @@
       <div class="stack"></div>
     </div>`);
     const stack = root.querySelector(".stack");
+    if (window.SnapszliSync?.isEnabled()) {
+      stack.append(el(`<p class="hint" style="margin-bottom:4px">Sync cloud · salle partagée</p>`));
+    }
     if (active) {
       stack.append(
         btn("Reprendre la partie", () => go("live", { id: active.id })),
@@ -546,19 +585,27 @@
   }
 
   function viewNewMatch(db) {
+    const playerNames = db.players
+      .filter((p) => !p.archived)
+      .map((p) => p.name)
+      .sort((a, b) => a.localeCompare(b, "fr"));
+    const datalistOpts = playerNames
+      .map((n) => `<option value="${escapeHtml(n)}"></option>`)
+      .join("");
     const root = el(`<div>
       <div class="top">
         <button class="back" type="button">←</button>
         <h1 class="brand" style="font-size:1.35rem">Nouvelle partie</h1>
       </div>
       <div class="card">
+        <datalist id="player-names">${datalistOpts}</datalist>
         <div class="field">
           <label for="player-1">Player 1</label>
-          <input id="player-1" placeholder="Nom" autocomplete="off" autocorrect="off" />
+          <input id="player-1" list="player-names" placeholder="Nom" autocomplete="off" autocorrect="off" />
         </div>
         <div class="field">
           <label for="player-2">Player 2</label>
-          <input id="player-2" placeholder="Nom" autocomplete="off" autocorrect="off" />
+          <input id="player-2" list="player-names" placeholder="Nom" autocomplete="off" autocorrect="off" />
         </div>
       </div>
       <div style="margin-top:14px">
@@ -851,29 +898,27 @@
     const nums = el(`<div class="num-row">
       <div class="field">
         <label>Fixes du perdant</label>
-        <input type="number" inputmode="numeric" min="0" max="120" id="loser-fixed" value="${draft.loserFixed}" />
+        <input type="number" inputmode="numeric" min="0" max="120" id="loser-fixed" />
       </div>
       <div class="field">
-        <label>Points laissés</label>
-        <input type="number" inputmode="numeric" min="0" max="120" id="left-out" value="${draft.leftOut}" />
+        <label>Fixes du gagnant</label>
+        <input type="number" inputmode="numeric" min="0" max="120" id="winner-fixed" />
       </div>
     </div>`);
     const lf = nums.querySelector("#loser-fixed");
-    const lo = nums.querySelector("#left-out");
-    lf.onchange = () => {
-      draft.loserFixed = clampInt(lf.value, 0, 120);
-      render();
-    };
-    lo.onchange = () => {
-      draft.leftOut = clampInt(lo.value, 0, 120);
-      render();
-    };
-    lf.oninput = () => {
-      draft.loserFixed = clampInt(lf.value, 0, 120);
-    };
-    lo.oninput = () => {
-      draft.leftOut = clampInt(lo.value, 0, 120);
-    };
+    const wf = nums.querySelector("#winner-fixed");
+    attachClearZeroInput(
+      lf,
+      () => draft.loserFixed,
+      (v) => setDraftFixedPair(draft, v, draftWinnerFixed(draft)),
+      render,
+    );
+    attachClearZeroInput(
+      wf,
+      () => draftWinnerFixed(draft),
+      (v) => setDraftFixedPair(draft, draft.loserFixed, v),
+      render,
+    );
     body.append(nums);
 
     // Summary + confirm
@@ -890,9 +935,10 @@
 
     const confirm = btn(editing ? "Enregistrer" : "Valider la manche", () => {
       draft.loserFixed = clampInt(lf.value, 0, 120);
-      draft.leftOut = clampInt(lo.value, 0, 120);
-      if (draft.loserFixed + draft.leftOut > 120) {
-        alert("Fixes perdant + points laissés ne peuvent pas dépasser 120.");
+      const winnerFixed = clampInt(wf.value, 0, 120);
+      setDraftFixedPair(draft, draft.loserFixed, winnerFixed);
+      if (draft.loserFixed + winnerFixed > 120) {
+        alert("Fixes perdant + gagnant ne peuvent pas dépasser 120.");
         return;
       }
       const loser = draft.winnerId === match.playerA ? match.playerB : match.playerA;
@@ -1325,8 +1371,42 @@
     app.replaceChildren(node);
   }
 
+  async function initCloudSync() {
+    if (!window.SnapszliSync) return;
+    const applyRemote = (remote) => {
+      try {
+        const local = load();
+        const remoteTs = SnapszliSync.contentTs(remote);
+        const localTs = local.settings?.contentUpdatedAt || "";
+        const localEmpty = !local.matches.length && !local.players.length;
+        if (remoteTs > localTs || (localEmpty && remote.matches?.length)) {
+          applyBackupPayload(remote, { skipSync: true });
+          render();
+        }
+      } catch {
+        /* ignore bad remote payload */
+      }
+    };
+    if (!SnapszliSync.init(applyRemote)) return;
+    const db = getDb();
+    try {
+      const remote = await SnapszliSync.pullOnce();
+      if (!remote) {
+        await SnapszliSync.push(buildBackupPayload(db));
+        return;
+      }
+      const remoteTs = SnapszliSync.contentTs(remote);
+      const localTs = db.settings?.contentUpdatedAt || "";
+      if (remoteTs > localTs) applyRemote(remote);
+      else if (localTs > remoteTs) await SnapszliSync.push(buildBackupPayload(db));
+    } catch {
+      /* offline */
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", async () => {
     const db = getDb();
+    await initCloudSync();
     await ensureSeedMatches(db);
     state.view = "home";
     render();
