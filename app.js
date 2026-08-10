@@ -452,25 +452,7 @@
           stack.append(el(`<p class="hint" style="margin-bottom:4px;color:#b33">Dernière erreur sync : ${escapeHtml(lastErr)}</p>`));
         }
       } else {
-        const syncCard = el(`<div class="card" style="margin-bottom:10px">
-          <p class="hint" style="margin:0 0 8px">Sync Git ${escapeHtml(build)} — collez le jeton GitHub (Contents lecture+écriture).</p>
-          <textarea id="sync-token" rows="3" placeholder="github_pat_…" style="width:100%;font:inherit"></textarea>
-        </div>`);
-        stack.append(syncCard);
-        stack.append(btn("Enregistrer le jeton", async () => {
-          const token = syncCard.querySelector("#sync-token").value.trim();
-          if (!token) return alert("Jeton vide.");
-          SnapszliSync.setToken(token);
-          try {
-            await SnapszliSync.testWrite();
-            await initCloudSync();
-            alert("Jeton OK — test d'écriture Git réussi.");
-            go("home");
-          } catch (e) {
-            SnapszliSync.setLastError(e.message || String(e));
-            alert(syncErrorMessage(e));
-          }
-        }, "secondary"));
+        appendTokenForm(stack, build);
       }
     }
     if (active) {
@@ -524,7 +506,12 @@
           } catch (e) {
             SnapszliSync.setLastError(e.message || String(e));
             alert(syncErrorMessage(e));
+            go("home");
           }
+        }, "secondary"));
+        actions.append(btn("Changer le jeton", () => {
+          SnapszliSync.clearToken();
+          go("home");
         }, "secondary"));
       }
     }
@@ -1529,9 +1516,34 @@
   function syncErrorMessage(err) {
     const msg = err?.message || String(err);
     if (msg.includes("401") || msg.includes("403")) {
-      return `${msg}\n\nVérifiez le jeton GitHub (Contents : lecture + écriture sur TomNslg/snapszli).`;
+      SnapszliSync.clearToken?.();
+      return `${msg}\n\nJeton effacé. Collez-le à nouveau via « Changer le jeton » (Contents : lecture + écriture sur TomNslg/snapszli).`;
     }
     return msg;
+  }
+
+  function appendTokenForm(stack, build) {
+    const syncCard = el(`<div class="card" style="margin-bottom:10px">
+      <p class="hint" style="margin:0 0 8px">Sync Git ${escapeHtml(build)} — collez le jeton GitHub (Contents lecture+écriture).</p>
+      <textarea id="sync-token" rows="4" placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%;font:inherit"></textarea>
+      <p class="hint" style="margin:8px 0 0">Copiez le jeton entier, sans espace avant/après.</p>
+    </div>`);
+    stack.append(syncCard);
+    stack.append(btn("Enregistrer le jeton", async () => {
+      const token = syncCard.querySelector("#sync-token").value.trim();
+      if (!token) return alert("Jeton vide.");
+      SnapszliSync.setToken(token);
+      try {
+        await SnapszliSync.testWrite();
+        await initCloudSync();
+        alert("Jeton OK — test d'écriture Git réussi.");
+        go("home");
+      } catch (e) {
+        SnapszliSync.setLastError(e.message || String(e));
+        alert(syncErrorMessage(e));
+        go("home");
+      }
+    }, "secondary"));
   }
 
   async function refreshCloudSync() {

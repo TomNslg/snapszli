@@ -3,7 +3,7 @@
   const DEVICE_KEY = "snapszli-device-id";
   const TOKEN_KEY = "snapszli-sync-token";
   const LAST_ERROR_KEY = "snapszli-sync-last-error";
-  const BUILD = "sync-2026-08-10d";
+  const BUILD = "sync-2026-08-10e";
   const config = window.SNAPSZLI_SYNC_CONFIG || { enabled: false };
 
   let enabled = false;
@@ -20,6 +20,11 @@
     const t = String(token || "").trim();
     if (t) localStorage.setItem(TOKEN_KEY, t);
     else localStorage.removeItem(TOKEN_KEY);
+  }
+
+  function clearToken() {
+    localStorage.removeItem(TOKEN_KEY);
+    setLastError("");
   }
 
   function hasToken() {
@@ -257,6 +262,7 @@
     canWrite,
     hasToken,
     setToken,
+    clearToken,
     getDeviceId,
     getBuild,
     getLastError,
