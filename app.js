@@ -473,67 +473,26 @@
       btn("Historique", () => go("history"), "secondary"),
     );
 
-    const lastLabel = formatBackupWhen(db.settings?.lastBackupAt);
-    const remind = needsBackupReminder(db);
-    const backupBlock = el(`<div class="backup-block">
-      ${remind ? `<div class="backup-remind card">Pensez à sauvegarder (Fichiers / iCloud · dossier Schnapzli).</div>` : ""}
-      <div class="backup-actions"></div>
-      <p class="hint backup-meta">${lastLabel ? `Dernière sauvegarde : ${escapeHtml(lastLabel)}` : "Aucune sauvegarde encore."}</p>
-      <input type="file" id="backup-file" accept="application/json,.json" hidden />
-    </div>`);
-    const actions = backupBlock.querySelector(".backup-actions");
-    actions.append(
-      btn("Sauvegarder", () => {
-        exportBackup(db).catch((e) => alert(e.message || String(e)));
-      }),
-      btn("Restaurer", () => backupBlock.querySelector("#backup-file").click(), "secondary"),
-    );
     if (window.SnapszliSync?.isEnabled()) {
+      const syncActions = el(`<div class="backup-actions" style="margin-top:12px"></div>`);
+      const actions = syncActions;
       if (SnapszliSync.canWrite()) {
         actions.append(btn("Synchroniser", () => {
           refreshCloudSync()
-            .then((info) => alert(`Synchronisation OK — ${info.parties} parties envoyées (${info.kb} Ko).`))
+            .then((info) => alert(`Synchronisation OK — ${info.parties} parties (${info.kb} Ko).`))
             .catch((e) => {
               SnapszliSync.setLastError(e.message || String(e));
               alert(syncErrorMessage(e));
               go("home");
             });
         }, "secondary"));
-        actions.append(btn("Test Git", async () => {
-          try {
-            const at = await SnapszliSync.testWrite();
-            alert(`Test d'écriture Git OK (${at}).`);
-          } catch (e) {
-            SnapszliSync.setLastError(e.message || String(e));
-            alert(syncErrorMessage(e));
-            go("home");
-          }
-        }, "secondary"));
         actions.append(btn("Changer le jeton", () => {
           SnapszliSync.clearToken();
           go("home");
         }, "secondary"));
       }
+      stack.append(syncActions);
     }
-    backupBlock.querySelector("#backup-file").onchange = async (ev) => {
-      const file = ev.target.files && ev.target.files[0];
-      ev.target.value = "";
-      if (!file) return;
-      if (!confirm("Remplacer toutes les données locales par cette sauvegarde ?")) return;
-      try {
-        await importBackupFromFile(file);
-        if (window.SnapszliSync?.canWrite()) {
-          const info = await pushToCloud();
-          alert(`Restauration terminée — ${info.parties} parties envoyées au Git (${info.kb} Ko).`);
-        } else {
-          alert("Restauration terminée.");
-        }
-        go("home");
-      } catch (e) {
-        alert(e.message || String(e));
-      }
-    };
-    stack.append(backupBlock);
 
     const suitCells = SUITS.map((s) => {
       const pct = g.hasDetail ? `${g.atoutPct[s.id]}%` : "N/A";
