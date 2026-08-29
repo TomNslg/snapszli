@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-08-29T13:56:00.803Z",
+  "exportedAt": "2026-08-29T13:58:58.037Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -59,37 +59,6 @@
     }
   ],
   "matches": [
-    {
-      "id": "mteg0y9h-yzoe88",
-      "playerA": "ms7ypl6l-u1w89h",
-      "playerB": "mteg0y9h-krdjo0",
-      "startedAt": "2026-08-29T13:55:42.581Z",
-      "endedAt": null,
-      "setsA": 0,
-      "setsB": 0,
-      "status": "active",
-      "sets": [
-        {
-          "jeuxA": 0,
-          "jeuxB": 2,
-          "winner": null,
-          "rounds": [
-            {
-              "id": "mteg1cbl-fpdx1w",
-              "trumpSuit": "grelot",
-              "winnerId": "mteg0y9h-krdjo0",
-              "loserId": "ms7ypl6l-u1w89h",
-              "marriages": [],
-              "pariPerdu": false,
-              "loserFixed": 21,
-              "leftOut": 0
-            }
-          ]
-        }
-      ],
-      "source": "live",
-      "pointsArtificial": false
-    },
     {
       "id": "msk7na73-nyywj4",
       "playerA": "ms7ypl6l-u1w89h",
@@ -11610,12 +11579,43 @@
       "source": "set-scores-only",
       "label": "Faye vs Tom — match 1",
       "pointsArtificial": true
+    },
+    {
+      "id": "mteg0y9h-yzoe88",
+      "playerA": "ms7ypl6l-u1w89h",
+      "playerB": "mteg0y9h-krdjo0",
+      "startedAt": "2026-08-29T13:55:42.581Z",
+      "endedAt": null,
+      "setsA": 0,
+      "setsB": 0,
+      "status": "active",
+      "sets": [
+        {
+          "jeuxA": 0,
+          "jeuxB": 2,
+          "winner": null,
+          "rounds": [
+            {
+              "id": "mteg1cbl-fpdx1w",
+              "trumpSuit": "grelot",
+              "winnerId": "mteg0y9h-krdjo0",
+              "loserId": "ms7ypl6l-u1w89h",
+              "marriages": [],
+              "pariPerdu": false,
+              "loserFixed": 21,
+              "leftOut": 0
+            }
+          ]
+        }
+      ],
+      "source": "live",
+      "pointsArtificial": false
     }
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-08-29T13:56:00.803Z",
-    "lastBackupAt": "2026-08-29T13:56:00.803Z"
+    "contentUpdatedAt": "2026-08-29T13:58:58.037Z",
+    "lastBackupAt": "2026-08-29T13:58:58.037Z"
   },
   "skippedSeeds": [],
   "deviceId": "29fdb998-451e-4714-ac74-b7f3706ca763"
