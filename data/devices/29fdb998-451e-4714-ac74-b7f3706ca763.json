@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-08-29T14:24:52.721Z",
+  "exportedAt": "2026-08-29T14:30:55.126Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -11586,14 +11586,14 @@
       "playerB": "mteg0y9h-krdjo0",
       "startedAt": "2026-08-29T13:55:42.581Z",
       "endedAt": null,
-      "setsA": 0,
+      "setsA": 1,
       "setsB": 0,
       "status": "active",
       "sets": [
         {
-          "jeuxA": 5,
-          "jeuxB": 5,
-          "winner": null,
+          "jeuxA": 7,
+          "jeuxB": 3,
+          "winner": "A",
           "rounds": [
             {
               "id": "mteg1cbl-fpdx1w",
@@ -11675,12 +11675,34 @@
             {
               "id": "mtegxxm2-itqo8a",
               "trumpSuit": "grelot",
-              "winnerId": "mteg0y9h-krdjo0",
-              "loserId": "ms7ypl6l-u1w89h",
+              "winnerId": "ms7ypl6l-u1w89h",
+              "loserId": "mteg0y9h-krdjo0",
               "marriages": [],
               "pariPerdu": false,
               "loserFixed": 12,
               "leftOut": 36
+            }
+          ]
+        },
+        {
+          "jeuxA": 2,
+          "jeuxB": 0,
+          "winner": null,
+          "rounds": [
+            {
+              "id": "mteh2lw5-lmfv0l",
+              "trumpSuit": "grelot",
+              "winnerId": "ms7ypl6l-u1w89h",
+              "loserId": "mteg0y9h-krdjo0",
+              "marriages": [
+                {
+                  "suit": "coeur",
+                  "playerId": "ms7ypl6l-u1w89h"
+                }
+              ],
+              "pariPerdu": false,
+              "loserFixed": 14,
+              "leftOut": 58
             }
           ]
         }
@@ -11691,8 +11713,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-08-29T14:24:52.721Z",
-    "lastBackupAt": "2026-08-29T14:24:52.721Z"
+    "contentUpdatedAt": "2026-08-29T14:30:55.126Z",
+    "lastBackupAt": "2026-08-29T14:30:55.126Z"
   },
   "skippedSeeds": [],
   "deviceId": "29fdb998-451e-4714-ac74-b7f3706ca763"
