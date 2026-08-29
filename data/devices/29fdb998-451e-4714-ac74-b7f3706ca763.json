@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-08-29T20:28:21.122Z",
+  "exportedAt": "2026-08-29T20:29:44.373Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -11713,8 +11713,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-08-29T20:28:21.122Z",
-    "lastBackupAt": "2026-08-29T20:28:21.122Z"
+    "contentUpdatedAt": "2026-08-29T20:29:44.373Z",
+    "lastBackupAt": "2026-08-29T20:29:44.373Z"
   },
   "skippedSeeds": [],
   "deviceId": "29fdb998-451e-4714-ac74-b7f3706ca763"
