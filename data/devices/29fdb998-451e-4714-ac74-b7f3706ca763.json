@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-08-29T13:55:12.592Z",
+  "exportedAt": "2026-08-29T13:55:42.590Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -50,9 +50,35 @@
       "name": "Ludo",
       "archived": false,
       "includeArtificialPoints": true
+    },
+    {
+      "id": "mteg0y9h-krdjo0",
+      "name": "Guillaume",
+      "archived": false,
+      "includeArtificialPoints": true
     }
   ],
   "matches": [
+    {
+      "id": "mteg0y9h-yzoe88",
+      "playerA": "ms7ypl6l-u1w89h",
+      "playerB": "mteg0y9h-krdjo0",
+      "startedAt": "2026-08-29T13:55:42.581Z",
+      "endedAt": null,
+      "setsA": 0,
+      "setsB": 0,
+      "status": "active",
+      "sets": [
+        {
+          "jeuxA": 0,
+          "jeuxB": 0,
+          "winner": null,
+          "rounds": []
+        }
+      ],
+      "source": "live",
+      "pointsArtificial": false
+    },
     {
       "id": "msk7na73-nyywj4",
       "playerA": "ms7ypl6l-u1w89h",
@@ -61,7 +87,7 @@
       "endedAt": null,
       "setsA": 1,
       "setsB": 0,
-      "status": "active",
+      "status": "abandoned",
       "sets": [
         {
           "jeuxA": 7,
@@ -11577,8 +11603,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-08-29T13:55:12.592Z",
-    "lastBackupAt": "2026-08-29T13:55:12.592Z"
+    "contentUpdatedAt": "2026-08-29T13:55:42.590Z",
+    "lastBackupAt": "2026-08-29T13:55:42.590Z"
   },
   "skippedSeeds": [],
   "deviceId": "29fdb998-451e-4714-ac74-b7f3706ca763"
