@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-09-01T14:14:58.435Z",
+  "exportedAt": "2026-09-01T14:17:07.753Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -4186,7 +4186,7 @@
       "playerB": "ms7ypl6l-u1w89h",
       "startedAt": "2026-01-22T12:00:00.000Z",
       "endedAt": null,
-      "setsA": 1,
+      "setsA": 2,
       "setsB": 2,
       "status": "open",
       "sets": [
@@ -4482,9 +4482,9 @@
           ]
         },
         {
-          "jeuxA": 4,
+          "jeuxA": 7,
           "jeuxB": 3,
-          "winner": null,
+          "winner": "A",
           "rounds": [
             {
               "id": "seed-etienne-tom-2-s3-r0",
@@ -4515,8 +4515,29 @@
               "pariPerdu": false,
               "loserFixed": 0,
               "leftOut": 13
+            },
+            {
+              "id": "mtir41wo-qi2z8g",
+              "trumpSuit": "coeur",
+              "winnerId": "ms7yppfl-b9gj94",
+              "loserId": "ms7ypl6l-u1w89h",
+              "marriages": [
+                {
+                  "suit": "feuille",
+                  "playerId": "ms7yppfl-b9gj94"
+                }
+              ],
+              "pariPerdu": true,
+              "loserFixed": 47,
+              "leftOut": 61
             }
           ]
+        },
+        {
+          "jeuxA": 0,
+          "jeuxB": 0,
+          "winner": null,
+          "rounds": []
         }
       ],
       "source": "notebook",
@@ -11713,8 +11734,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-09-01T14:14:58.435Z",
-    "lastBackupAt": "2026-09-01T14:14:58.435Z"
+    "contentUpdatedAt": "2026-09-01T14:17:07.753Z",
+    "lastBackupAt": "2026-09-01T14:17:07.753Z"
   },
   "skippedSeeds": [],
   "deviceId": "29fdb998-451e-4714-ac74-b7f3706ca763"
