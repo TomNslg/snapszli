@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-09-01T14:45:24.376Z",
+  "exportedAt": "2026-09-01T14:50:25.711Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -59,82 +59,6 @@
     }
   ],
   "matches": [
-    {
-      "id": "mtirot4j-88ybxt",
-      "playerA": "ms7yppfl-b9gj94",
-      "playerB": "ms7ypl6l-u1w89h",
-      "startedAt": "2026-09-01T14:33:16.147Z",
-      "endedAt": null,
-      "setsA": 0,
-      "setsB": 0,
-      "status": "active",
-      "sets": [
-        {
-          "jeuxA": 5,
-          "jeuxB": 5,
-          "winner": null,
-          "rounds": [
-            {
-              "id": "mtirqyuf-vkcq74",
-              "trumpSuit": "grelot",
-              "winnerId": "ms7yppfl-b9gj94",
-              "loserId": "ms7ypl6l-u1w89h",
-              "marriages": [],
-              "pariPerdu": false,
-              "loserFixed": 0,
-              "leftOut": 52
-            },
-            {
-              "id": "mtirueu4-b50iar",
-              "trumpSuit": "gland",
-              "winnerId": "ms7ypl6l-u1w89h",
-              "loserId": "ms7yppfl-b9gj94",
-              "marriages": [],
-              "pariPerdu": false,
-              "loserFixed": 19,
-              "leftOut": 33
-            },
-            {
-              "id": "mtirzez2-y2kh5e",
-              "trumpSuit": "feuille",
-              "winnerId": "ms7ypl6l-u1w89h",
-              "loserId": "ms7yppfl-b9gj94",
-              "marriages": [],
-              "pariPerdu": false,
-              "loserFixed": 56,
-              "leftOut": 0
-            },
-            {
-              "id": "mtis1x07-cmugik",
-              "trumpSuit": "gland",
-              "winnerId": "ms7ypl6l-u1w89h",
-              "loserId": "ms7yppfl-b9gj94",
-              "marriages": [],
-              "pariPerdu": false,
-              "loserFixed": 14,
-              "leftOut": 38
-            },
-            {
-              "id": "mtis4f12-hfchz7",
-              "trumpSuit": "coeur",
-              "winnerId": "ms7yppfl-b9gj94",
-              "loserId": "ms7ypl6l-u1w89h",
-              "marriages": [
-                {
-                  "suit": "coeur",
-                  "playerId": "ms7yppfl-b9gj94"
-                }
-              ],
-              "pariPerdu": false,
-              "loserFixed": 26,
-              "leftOut": 51
-            }
-          ]
-        }
-      ],
-      "source": "live",
-      "pointsArtificial": false
-    },
     {
       "id": "msk7na73-nyywj4",
       "playerA": "ms7ypl6l-u1w89h",
@@ -11748,6 +11672,82 @@
       "pointsArtificial": true
     },
     {
+      "id": "mtirot4j-88ybxt",
+      "playerA": "ms7yppfl-b9gj94",
+      "playerB": "ms7ypl6l-u1w89h",
+      "startedAt": "2026-09-01T14:33:16.147Z",
+      "endedAt": null,
+      "setsA": 0,
+      "setsB": 0,
+      "status": "active",
+      "sets": [
+        {
+          "jeuxA": 5,
+          "jeuxB": 5,
+          "winner": null,
+          "rounds": [
+            {
+              "id": "mtirqyuf-vkcq74",
+              "trumpSuit": "grelot",
+              "winnerId": "ms7yppfl-b9gj94",
+              "loserId": "ms7ypl6l-u1w89h",
+              "marriages": [],
+              "pariPerdu": false,
+              "loserFixed": 0,
+              "leftOut": 52
+            },
+            {
+              "id": "mtirueu4-b50iar",
+              "trumpSuit": "gland",
+              "winnerId": "ms7ypl6l-u1w89h",
+              "loserId": "ms7yppfl-b9gj94",
+              "marriages": [],
+              "pariPerdu": false,
+              "loserFixed": 19,
+              "leftOut": 33
+            },
+            {
+              "id": "mtirzez2-y2kh5e",
+              "trumpSuit": "feuille",
+              "winnerId": "ms7ypl6l-u1w89h",
+              "loserId": "ms7yppfl-b9gj94",
+              "marriages": [],
+              "pariPerdu": false,
+              "loserFixed": 56,
+              "leftOut": 0
+            },
+            {
+              "id": "mtis1x07-cmugik",
+              "trumpSuit": "gland",
+              "winnerId": "ms7ypl6l-u1w89h",
+              "loserId": "ms7yppfl-b9gj94",
+              "marriages": [],
+              "pariPerdu": false,
+              "loserFixed": 14,
+              "leftOut": 38
+            },
+            {
+              "id": "mtis4f12-hfchz7",
+              "trumpSuit": "coeur",
+              "winnerId": "ms7yppfl-b9gj94",
+              "loserId": "ms7ypl6l-u1w89h",
+              "marriages": [
+                {
+                  "suit": "coeur",
+                  "playerId": "ms7yppfl-b9gj94"
+                }
+              ],
+              "pariPerdu": false,
+              "loserFixed": 26,
+              "leftOut": 51
+            }
+          ]
+        }
+      ],
+      "source": "live",
+      "pointsArtificial": false
+    },
+    {
       "id": "mteg0y9h-yzoe88",
       "playerA": "ms7ypl6l-u1w89h",
       "playerB": "mteg0y9h-krdjo0",
@@ -11880,8 +11880,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-09-01T14:45:24.376Z",
-    "lastBackupAt": "2026-09-01T14:45:24.376Z"
+    "contentUpdatedAt": "2026-09-01T14:50:25.711Z",
+    "lastBackupAt": "2026-09-01T14:50:25.711Z"
   },
   "skippedSeeds": [],
   "deviceId": "29fdb998-451e-4714-ac74-b7f3706ca763"
