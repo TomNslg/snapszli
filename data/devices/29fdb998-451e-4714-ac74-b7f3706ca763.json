@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-09-01T14:52:04.999Z",
+  "exportedAt": "2026-09-01T14:55:49.734Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -11677,14 +11677,14 @@
       "playerB": "ms7ypl6l-u1w89h",
       "startedAt": "2026-09-01T14:33:16.147Z",
       "endedAt": null,
-      "setsA": 0,
+      "setsA": 1,
       "setsB": 0,
       "status": "active",
       "sets": [
         {
-          "jeuxA": 6,
+          "jeuxA": 7,
           "jeuxB": 5,
-          "winner": null,
+          "winner": "A",
           "rounds": [
             {
               "id": "mtirqyuf-vkcq74",
@@ -11755,8 +11755,33 @@
               "pariPerdu": false,
               "loserFixed": 34,
               "leftOut": 20
+            },
+            {
+              "id": "mtishtk5-ufvifh",
+              "trumpSuit": "grelot",
+              "winnerId": "ms7yppfl-b9gj94",
+              "loserId": "ms7ypl6l-u1w89h",
+              "marriages": [
+                {
+                  "suit": "gland",
+                  "playerId": "ms7ypl6l-u1w89h"
+                },
+                {
+                  "suit": "grelot",
+                  "playerId": "ms7yppfl-b9gj94"
+                }
+              ],
+              "pariPerdu": false,
+              "loserFixed": 21,
+              "leftOut": 53
             }
           ]
+        },
+        {
+          "jeuxA": 0,
+          "jeuxB": 0,
+          "winner": null,
+          "rounds": []
         }
       ],
       "source": "live",
@@ -11895,8 +11920,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-09-01T14:52:04.999Z",
-    "lastBackupAt": "2026-09-01T14:52:04.999Z"
+    "contentUpdatedAt": "2026-09-01T14:55:49.734Z",
+    "lastBackupAt": "2026-09-01T14:55:49.734Z"
   },
   "skippedSeeds": [],
   "deviceId": "29fdb998-451e-4714-ac74-b7f3706ca763"
