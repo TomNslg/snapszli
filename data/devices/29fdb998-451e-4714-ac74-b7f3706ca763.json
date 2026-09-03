@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-09-03T12:11:08.635Z",
+  "exportedAt": "2026-09-03T12:11:23.820Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -11889,7 +11889,7 @@
           ]
         },
         {
-          "jeuxA": 5,
+          "jeuxA": 6,
           "jeuxB": 4,
           "winner": null,
           "rounds": [
@@ -11997,7 +11997,7 @@
                 }
               ],
               "pariPerdu": false,
-              "loserFixed": 54,
+              "loserFixed": 6,
               "leftOut": 60
             }
           ]
@@ -12582,8 +12582,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-09-03T12:11:08.635Z",
-    "lastBackupAt": "2026-09-03T12:11:08.635Z"
+    "contentUpdatedAt": "2026-09-03T12:11:23.820Z",
+    "lastBackupAt": "2026-09-03T12:11:23.820Z"
   },
   "skippedSeeds": [],
   "deviceId": "29fdb998-451e-4714-ac74-b7f3706ca763"
