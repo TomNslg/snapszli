@@ -3,7 +3,7 @@
   const DEVICE_KEY = "snapszli-device-id";
   const TOKEN_KEY = "snapszli-sync-token";
   const LAST_ERROR_KEY = "snapszli-sync-last-error";
-  const BUILD = "sync-2026-08-11a";
+  const BUILD = "sync-2026-10-24b";
   const config = window.SNAPSZLI_SYNC_CONFIG || { enabled: false };
 
   let enabled = false;
@@ -12,12 +12,17 @@
   let branch = "main";
   let deviceId = null;
 
+  /** Accept classic (ghp_) and fine-grained (github_pat_) PATs; strip paste whitespace. */
+  function normalizeToken(token) {
+    return String(token || "").replace(/\s+/g, "").trim();
+  }
+
   function getToken() {
-    return String(config.token || localStorage.getItem(TOKEN_KEY) || "").trim();
+    return normalizeToken(config.token || localStorage.getItem(TOKEN_KEY) || "");
   }
 
   function setToken(token) {
-    const t = String(token || "").trim();
+    const t = normalizeToken(token);
     if (t) localStorage.setItem(TOKEN_KEY, t);
     else localStorage.removeItem(TOKEN_KEY);
   }
@@ -75,6 +80,7 @@
   function authHeaders(headers = {}) {
     const out = { ...headers };
     const token = getToken();
+    // Bearer works for both classic and fine-grained PATs on api.github.com.
     if (token) out.Authorization = `Bearer ${token}`;
     return out;
   }

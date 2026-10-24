@@ -1,7 +1,7 @@
 # Snapszli — app folder
 
 **Live:** https://TomNslg.github.io/snapszli/  
-**Reopen docs:** `../maintenance.md` · Pages: `GITHUB-PAGES.md`
+**Sync token (phones):** `TOKEN-SETUP.md` · Pages: `GITHUB-PAGES.md`
 
 Dev server:
 
