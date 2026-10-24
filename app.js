@@ -1476,19 +1476,19 @@
     const msg = err?.message || String(err);
     if (msg.includes("401")) {
       SnapszliSync.clearToken?.();
-      return `${msg}\n\nJeton invalide ou expiré — recréez un fine-grained PAT (Contents : lecture + écriture sur TomNslg/snapszli) et collez-le via « Changer le jeton ». Voir TOKEN-SETUP.md.`;
+      return `${msg}\n\nJeton invalide ou expiré — recréez un jeton fine-grained (catégorie Contenu / Contents → Lecture et écriture, dépôt snapszli seul) et collez-le via « Changer le jeton ». Voir TOKEN-SETUP.md.`;
     }
     if (msg.includes("403")) {
-      return `${msg}\n\nLe jeton est reconnu mais refuse l'écriture. Vérifiez le fine-grained PAT : Repository access = TomNslg/snapszli uniquement, Contents = Read and write (pas Read only). Voir TOKEN-SETUP.md.`;
+      return `${msg}\n\nLe jeton est reconnu mais refuse l'écriture. Sous Autorisations → Autorisations des dépôts, trouvez la catégorie « Contenu » (EN : Contents), puis dans son menu choisissez « Lecture et écriture » (EN : Read and write) — ce n'est pas une ligne de la liste. Dépôt = snapszli uniquement. Voir TOKEN-SETUP.md.`;
     }
     return msg;
   }
 
   function appendTokenForm(stack, build) {
     const syncCard = el(`<div class="card" style="margin-bottom:10px">
-      <p class="hint" style="margin:0 0 8px">Sync Git ${escapeHtml(build)} — collez un jeton fine-grained (Contents lecture+écriture sur TomNslg/snapszli).</p>
+      <p class="hint" style="margin:0 0 8px">Sync Git ${escapeHtml(build)} — collez un jeton fine-grained (dépôt snapszli seul).</p>
       <textarea id="sync-token" rows="4" placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%;font:inherit"></textarea>
-      <p class="hint" style="margin:8px 0 0">Fine-grained recommandé (un seul dépôt). Copiez le jeton entier — ghp_… classique reste accepté.</p>
+      <p class="hint" style="margin:8px 0 0">Sur GitHub : Autorisations → catégorie « Contenu » (EN : Contents) → menu « Lecture et écriture » (pas une ligne de la liste). Voir TOKEN-SETUP.md.</p>
     </div>`);
     stack.append(syncCard);
     stack.append(btn("Enregistrer le jeton", async () => {
