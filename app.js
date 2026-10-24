@@ -1116,9 +1116,10 @@
           detailN += 1;
           const trump = Suit.normalize(r.trumpSuit);
           if (atout[trump] !== undefined) atout[trump] += 1;
+          // Count every mariage: 1 atout + 3 simples in one manche → 100% / 300%.
           const mars = r.marriages || [];
-          if (mars.some((x) => Suit.normalize(x.suit) === trump)) marriageAtout += 1;
-          if (mars.some((x) => Suit.normalize(x.suit) !== trump)) marriageSimple += 1;
+          marriageAtout += mars.filter((x) => Suit.normalize(x.suit) === trump).length;
+          marriageSimple += mars.filter((x) => Suit.normalize(x.suit) !== trump).length;
         });
       });
     });
@@ -1159,8 +1160,8 @@
     let ptsRoundsLost = 0;
     let pointsWonSum = 0;
     let pointsLostSum = 0;
-    let roundsWithAtoutMarriage = 0;
-    let roundsWithSimpleMarriage = 0;
+    let atoutMarriageCount = 0;
+    let simpleMarriageCount = 0;
     let pariPerduLost = 0;
 
     db.matches.forEach((m) => {
@@ -1194,12 +1195,8 @@
           ptsRoundsPlayed += 1;
           const ownMarriages = (r.marriages || []).filter((x) => x.playerId === playerId);
           const trump = Suit.normalize(r.trumpSuit);
-          if (ownMarriages.some((x) => Suit.normalize(x.suit) === trump)) {
-            roundsWithAtoutMarriage += 1;
-          }
-          if (ownMarriages.some((x) => Suit.normalize(x.suit) !== trump)) {
-            roundsWithSimpleMarriage += 1;
-          }
+          atoutMarriageCount += ownMarriages.filter((x) => Suit.normalize(x.suit) === trump).length;
+          simpleMarriageCount += ownMarriages.filter((x) => Suit.normalize(x.suit) !== trump).length;
           if (won) {
             ptsRoundsWon += 1;
             pointsWonSum += d.winnerTotal;
@@ -1233,8 +1230,8 @@
       hasPtsRounds: ptsRoundsPlayed > 0,
       avgPointsWon: Math.round(avg(pointsWonSum, ptsRoundsWon) * 10) / 10,
       avgPointsLost: Math.round(avg(pointsLostSum, ptsRoundsLost) * 10) / 10,
-      pctMarriageAtout: pct(roundsWithAtoutMarriage, ptsRoundsPlayed),
-      pctMarriageSimple: pct(roundsWithSimpleMarriage, ptsRoundsPlayed),
+      pctMarriageAtout: pct(atoutMarriageCount, ptsRoundsPlayed),
+      pctMarriageSimple: pct(simpleMarriageCount, ptsRoundsPlayed),
       pariPerduLost,
       pariPerduLostPct: pct(pariPerduLost, ptsRoundsLost),
     };
