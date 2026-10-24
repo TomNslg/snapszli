@@ -1476,24 +1476,27 @@
     const msg = err?.message || String(err);
     if (msg.includes("401")) {
       SnapszliSync.clearToken?.();
-      return `${msg}\n\nJeton invalide ou expiré — recréez-le et collez-le via « Changer le jeton ».`;
+      return `${msg}\n\nJeton invalide ou expiré — recréez un fine-grained PAT (Contents : lecture + écriture sur TomNslg/snapszli) et collez-le via « Changer le jeton ». Voir TOKEN-SETUP.md.`;
     }
     if (msg.includes("403")) {
-      return `${msg}\n\nLe jeton est reconnu mais refuse l'écriture. Essayez un jeton classique (scope « repo ») — voir sharing-setup.md.\n\nFine-grained : Repository access = TomNslg/snapszli uniquement, Contents = Read and write (pas Read only).`;
+      return `${msg}\n\nLe jeton est reconnu mais refuse l'écriture. Vérifiez le fine-grained PAT : Repository access = TomNslg/snapszli uniquement, Contents = Read and write (pas Read only). Voir TOKEN-SETUP.md.`;
     }
     return msg;
   }
 
   function appendTokenForm(stack, build) {
     const syncCard = el(`<div class="card" style="margin-bottom:10px">
-      <p class="hint" style="margin:0 0 8px">Sync Git ${escapeHtml(build)} — collez le jeton GitHub (Contents lecture+écriture).</p>
-      <textarea id="sync-token" rows="4" placeholder="ghp_… ou github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%;font:inherit"></textarea>
-      <p class="hint" style="margin:8px 0 0">Jeton classique (scope « repo », ghp_…) recommandé. Copiez-le en entier.</p>
+      <p class="hint" style="margin:0 0 8px">Sync Git ${escapeHtml(build)} — collez un jeton fine-grained (Contents lecture+écriture sur TomNslg/snapszli).</p>
+      <textarea id="sync-token" rows="4" placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false" style="width:100%;font:inherit"></textarea>
+      <p class="hint" style="margin:8px 0 0">Fine-grained recommandé (un seul dépôt). Copiez le jeton entier — ghp_… classique reste accepté.</p>
     </div>`);
     stack.append(syncCard);
     stack.append(btn("Enregistrer le jeton", async () => {
-      const token = syncCard.querySelector("#sync-token").value.trim();
+      const token = syncCard.querySelector("#sync-token").value.replace(/\s+/g, "").trim();
       if (!token) return alert("Jeton vide.");
+      if (!/^(ghp_|github_pat_)/.test(token)) {
+        return alert("Jeton inattendu — collez un fine-grained github_pat_… (ou un classique ghp_…).");
+      }
       SnapszliSync.setToken(token);
       try {
         await SnapszliSync.testWrite();
