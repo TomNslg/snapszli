@@ -265,6 +265,43 @@ button {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
+.fixed-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.fixed-slider {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 12px 10px;
+}
+.fixed-slider-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.fixed-slider-head label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.fixed-slider-head strong {
+  font-family: var(--font);
+  font-size: 1.45rem;
+  color: var(--accent);
+  min-width: 2.5ch;
+  text-align: right;
+}
+.fixed-slider input[type="range"] {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--accent);
+  height: 28px;
+}
 .hint {
   font-size: 0.8rem;
   color: var(--muted);

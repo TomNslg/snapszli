@@ -404,28 +404,6 @@
     draft.leftOut = Math.max(0, 120 - draft.loserFixed - wf);
   }
 
-  function attachClearZeroInput(input, getValue, setValue, onAfter) {
-    const refresh = () => {
-      const v = getValue();
-      if (document.activeElement !== input) input.value = String(v);
-    };
-    input.addEventListener("focus", () => {
-      if (input.value === "0") input.value = "";
-    });
-    input.addEventListener("blur", () => {
-      const raw = input.value.trim();
-      setValue(raw === "" ? 0 : clampInt(raw, 0, 120));
-      input.value = String(getValue());
-      onAfter?.();
-    });
-    input.addEventListener("input", () => {
-      const raw = input.value.trim();
-      if (raw === "" || raw === "-") return;
-      setValue(clampInt(raw, 0, 120));
-    });
-    refresh();
-  }
-
   /* ---------- Views ---------- */
 
   function isUnfinishedMatch(m) {
@@ -978,51 +956,82 @@
     tbody.append(trP);
     body.append(gridCard);
 
-    // 4 Numbers
+    // 4 Fixed points (range sliders — no tap-to-clear number fields)
     body.append(el(`<div class="step-title" style="margin-top:16px">4. Points fixes</div>`));
-    const nums = el(`<div class="num-row">
-      <div class="field">
-        <label>Fixes du perdant</label>
-        <input type="number" inputmode="numeric" min="0" max="120" id="loser-fixed" />
+    const loserVal = Number(draft.loserFixed) || 0;
+    const winnerVal = draftWinnerFixed(draft);
+    const leftOutVal = Math.max(0, 120 - loserVal - winnerVal);
+    const nums = el(`<div class="fixed-sliders">
+      <div class="fixed-slider">
+        <div class="fixed-slider-head">
+          <label for="loser-fixed">Fixes du perdant</label>
+          <strong id="loser-fixed-val">${loserVal}</strong>
+        </div>
+        <input type="range" id="loser-fixed" min="0" max="120" step="1" value="${loserVal}" />
       </div>
-      <div class="field">
-        <label>Fixes du gagnant</label>
-        <input type="number" inputmode="numeric" min="0" max="120" id="winner-fixed" />
+      <div class="fixed-slider">
+        <div class="fixed-slider-head">
+          <label for="winner-fixed">Fixes du gagnant</label>
+          <strong id="winner-fixed-val">${winnerVal}</strong>
+        </div>
+        <input type="range" id="winner-fixed" min="0" max="120" step="1" value="${winnerVal}" />
       </div>
+      <p class="hint" id="fixed-left-out">Restent dehors : ${leftOutVal}</p>
     </div>`);
     const lf = nums.querySelector("#loser-fixed");
     const wf = nums.querySelector("#winner-fixed");
-    attachClearZeroInput(
-      lf,
-      () => draft.loserFixed,
-      (v) => setDraftFixedPair(draft, v, draftWinnerFixed(draft)),
-      render,
-    );
-    attachClearZeroInput(
-      wf,
-      () => draftWinnerFixed(draft),
-      (v) => setDraftFixedPair(draft, draft.loserFixed, v),
-      render,
-    );
+    const lfVal = nums.querySelector("#loser-fixed-val");
+    const wfVal = nums.querySelector("#winner-fixed-val");
+    const leftHint = nums.querySelector("#fixed-left-out");
+    let summaryEl = null;
+
+    const syncFixedUi = () => {
+      const l = Number(draft.loserFixed) || 0;
+      const w = draftWinnerFixed(draft);
+      lf.value = String(l);
+      wf.value = String(w);
+      lfVal.textContent = String(l);
+      wfVal.textContent = String(w);
+      leftHint.textContent = `Restent dehors : ${Math.max(0, 120 - l - w)}`;
+      if (summaryEl && draft.trumpSuit && draft.winnerId) {
+        const d = deriveRound(draftToRound(draft, match, loserId));
+        summaryEl.innerHTML = `
+          <div><span class="muted">Fixes gagnant</span><strong>${d.winnerFixed}</strong></div>
+          <div><span class="muted">Total perdant</span><strong>${d.loserTotal}</strong></div>
+          <div class="full"><span class="muted">Jeux cette manche</span><strong>+${d.jeux}${draft.pariPerdu ? " (pari perdu)" : ""}</strong></div>`;
+      }
+    };
+
+    // Update in place — full render() would interrupt the drag.
+    lf.addEventListener("input", () => {
+      const nextLoser = clampInt(lf.value, 0, 120);
+      const keepWinner = Math.min(draftWinnerFixed(draft), 120 - nextLoser);
+      setDraftFixedPair(draft, nextLoser, keepWinner);
+      syncFixedUi();
+    });
+    wf.addEventListener("input", () => {
+      const nextWinner = clampInt(wf.value, 0, 120);
+      const keepLoser = Math.min(Number(draft.loserFixed) || 0, 120 - nextWinner);
+      setDraftFixedPair(draft, keepLoser, nextWinner);
+      syncFixedUi();
+    });
     body.append(nums);
 
     // Summary + confirm
     if (derived) {
-      const sum = el(`<div class="summary">
+      summaryEl = el(`<div class="summary">
         <div><span class="muted">Fixes gagnant</span><strong>${derived.winnerFixed}</strong></div>
         <div><span class="muted">Total perdant</span><strong>${derived.loserTotal}</strong></div>
         <div class="full"><span class="muted">Jeux cette manche</span><strong>+${derived.jeux}${draft.pariPerdu ? " (pari perdu)" : ""}</strong></div>
       </div>`);
-      body.append(sum);
+      body.append(summaryEl);
     }
 
     const canConfirm = !!(draft.trumpSuit && draft.winnerId);
 
     const confirm = btn(editing ? "Enregistrer" : "Valider la manche", () => {
-      draft.loserFixed = clampInt(lf.value, 0, 120);
-      const winnerFixed = clampInt(wf.value, 0, 120);
-      setDraftFixedPair(draft, draft.loserFixed, winnerFixed);
-      if (draft.loserFixed + winnerFixed > 120) {
+      setDraftFixedPair(draft, clampInt(lf.value, 0, 120), clampInt(wf.value, 0, 120));
+      if ((Number(draft.loserFixed) || 0) + draftWinnerFixed(draft) > 120) {
         alert("Fixes perdant + gagnant ne peuvent pas dépasser 120.");
         return;
       }
