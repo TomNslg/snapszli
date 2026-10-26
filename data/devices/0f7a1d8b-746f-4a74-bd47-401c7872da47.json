@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-10-26T21:27:53.028Z",
+  "exportedAt": "2026-10-26T21:29:00.572Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -880,7 +880,7 @@
       "endedAt": null,
       "setsA": 1,
       "setsB": 0,
-      "status": "open",
+      "status": "active",
       "sets": [
         {
           "jeuxA": 7,
@@ -12790,8 +12790,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-10-26T21:27:53.028Z",
-    "lastBackupAt": "2026-10-26T21:27:53.028Z"
+    "contentUpdatedAt": "2026-10-26T21:29:00.572Z",
+    "lastBackupAt": "2026-10-26T21:29:00.572Z"
   },
   "skippedSeeds": [],
   "deviceId": "0f7a1d8b-746f-4a74-bd47-401c7872da47"
