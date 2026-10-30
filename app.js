@@ -968,11 +968,11 @@
           <strong id="loser-fixed-val">${loserVal}</strong>
         </div>
         <div class="fixed-slider-controls">
+          <input type="range" id="loser-fixed" min="0" max="120" step="1" value="${loserVal}" />
           <div class="fixed-slider-stepper">
             <button type="button" class="fixed-step" data-target="loser" data-delta="-1" aria-label="Moins perdant">−</button>
             <button type="button" class="fixed-step" data-target="loser" data-delta="1" aria-label="Plus perdant">+</button>
           </div>
-          <input type="range" id="loser-fixed" min="0" max="120" step="1" value="${loserVal}" />
         </div>
       </div>
       <div class="fixed-slider">
@@ -981,11 +981,11 @@
           <strong id="winner-fixed-val">${winnerVal}</strong>
         </div>
         <div class="fixed-slider-controls">
+          <input type="range" id="winner-fixed" min="0" max="120" step="1" value="${winnerVal}" />
           <div class="fixed-slider-stepper">
             <button type="button" class="fixed-step" data-target="winner" data-delta="-1" aria-label="Moins gagnant">−</button>
             <button type="button" class="fixed-step" data-target="winner" data-delta="1" aria-label="Plus gagnant">+</button>
           </div>
-          <input type="range" id="winner-fixed" min="0" max="120" step="1" value="${winnerVal}" />
         </div>
       </div>
       <p class="hint" id="fixed-left-out">Restent dehors : ${leftOutVal}</p>
