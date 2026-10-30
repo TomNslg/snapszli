@@ -1,5 +1,5 @@
 /* Snapszli — offline shell (cache app assets; game data stays in localStorage). */
-const CACHE = "snapszli-shell-v11";
+const CACHE = "snapszli-shell-v12";
 const PRECACHE = [
   "./",
   "./index.html",

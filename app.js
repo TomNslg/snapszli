@@ -956,7 +956,7 @@
     tbody.append(trP);
     body.append(gridCard);
 
-    // 4 Fixed points (range sliders — no tap-to-clear number fields)
+    // 4 Fixed points (range sliders + −/+ steppers; drag sensitivity −25%)
     body.append(el(`<div class="step-title" style="margin-top:16px">4. Points fixes</div>`));
     const loserVal = Number(draft.loserFixed) || 0;
     const winnerVal = draftWinnerFixed(draft);
@@ -967,14 +967,26 @@
           <label for="loser-fixed">Fixes du perdant</label>
           <strong id="loser-fixed-val">${loserVal}</strong>
         </div>
-        <input type="range" id="loser-fixed" min="0" max="120" step="1" value="${loserVal}" />
+        <div class="fixed-slider-controls">
+          <div class="fixed-slider-stepper">
+            <button type="button" class="fixed-step" data-target="loser" data-delta="-1" aria-label="Moins perdant">−</button>
+            <button type="button" class="fixed-step" data-target="loser" data-delta="1" aria-label="Plus perdant">+</button>
+          </div>
+          <input type="range" id="loser-fixed" min="0" max="120" step="1" value="${loserVal}" />
+        </div>
       </div>
       <div class="fixed-slider">
         <div class="fixed-slider-head">
           <label for="winner-fixed">Fixes du gagnant</label>
           <strong id="winner-fixed-val">${winnerVal}</strong>
         </div>
-        <input type="range" id="winner-fixed" min="0" max="120" step="1" value="${winnerVal}" />
+        <div class="fixed-slider-controls">
+          <div class="fixed-slider-stepper">
+            <button type="button" class="fixed-step" data-target="winner" data-delta="-1" aria-label="Moins gagnant">−</button>
+            <button type="button" class="fixed-step" data-target="winner" data-delta="1" aria-label="Plus gagnant">+</button>
+          </div>
+          <input type="range" id="winner-fixed" min="0" max="120" step="1" value="${winnerVal}" />
+        </div>
       </div>
       <p class="hint" id="fixed-left-out">Restent dehors : ${leftOutVal}</p>
     </div>`);
@@ -984,6 +996,7 @@
     const wfVal = nums.querySelector("#winner-fixed-val");
     const leftHint = nums.querySelector("#fixed-left-out");
     let summaryEl = null;
+    const SLIDER_SENSITIVITY = 0.75; // 25% less reactive than native full-span drag
 
     const syncFixedUi = () => {
       const l = Number(draft.loserFixed) || 0;
@@ -1002,18 +1015,69 @@
       }
     };
 
-    // Update in place — full render() would interrupt the drag.
-    lf.addEventListener("input", () => {
-      const nextLoser = clampInt(lf.value, 0, 120);
-      const keepWinner = Math.min(draftWinnerFixed(draft), 120 - nextLoser);
-      setDraftFixedPair(draft, nextLoser, keepWinner);
+    const applyLoser = (nextLoser) => {
+      const v = clampInt(nextLoser, 0, 120);
+      const keepWinner = Math.min(draftWinnerFixed(draft), 120 - v);
+      setDraftFixedPair(draft, v, keepWinner);
       syncFixedUi();
-    });
-    wf.addEventListener("input", () => {
-      const nextWinner = clampInt(wf.value, 0, 120);
-      const keepLoser = Math.min(Number(draft.loserFixed) || 0, 120 - nextWinner);
-      setDraftFixedPair(draft, keepLoser, nextWinner);
+    };
+    const applyWinner = (nextWinner) => {
+      const v = clampInt(nextWinner, 0, 120);
+      const keepLoser = Math.min(Number(draft.loserFixed) || 0, 120 - v);
+      setDraftFixedPair(draft, keepLoser, v);
       syncFixedUi();
+    };
+
+    const attachSoftRange = (input, getValue, applyValue) => {
+      let dragging = false;
+      let startX = 0;
+      let startVal = 0;
+
+      input.addEventListener("pointerdown", (e) => {
+        if (e.button != null && e.button !== 0) return;
+        dragging = true;
+        startX = e.clientX;
+        startVal = getValue();
+        try {
+          input.setPointerCapture(e.pointerId);
+        } catch {
+          /* ignore */
+        }
+        e.preventDefault();
+      });
+      input.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        const w = input.getBoundingClientRect().width || 1;
+        const delta = ((e.clientX - startX) / w) * 120 * SLIDER_SENSITIVITY;
+        applyValue(Math.round(startVal + delta));
+      });
+      const endDrag = () => {
+        dragging = false;
+      };
+      input.addEventListener("pointerup", endDrag);
+      input.addEventListener("pointercancel", endDrag);
+      // Keyboard / a11y still use native steps of 1.
+      input.addEventListener("input", () => {
+        if (dragging) {
+          input.value = String(getValue());
+          return;
+        }
+        applyValue(clampInt(input.value, 0, 120));
+      });
+    };
+
+    attachSoftRange(lf, () => Number(draft.loserFixed) || 0, applyLoser);
+    attachSoftRange(wf, () => draftWinnerFixed(draft), applyWinner);
+
+    nums.querySelectorAll(".fixed-step").forEach((b) => {
+      b.addEventListener("click", () => {
+        const delta = Number(b.getAttribute("data-delta")) || 0;
+        if (b.getAttribute("data-target") === "loser") {
+          applyLoser((Number(draft.loserFixed) || 0) + delta);
+        } else {
+          applyWinner(draftWinnerFixed(draft) + delta);
+        }
+      });
     });
     body.append(nums);
 
