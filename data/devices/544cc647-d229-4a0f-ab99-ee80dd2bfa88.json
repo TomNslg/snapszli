@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-10-30T17:58:01.380Z",
+  "exportedAt": "2026-11-10T18:17:51.693Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -54,6 +54,12 @@
     {
       "id": "mteg0y9h-krdjo0",
       "name": "Guillaume",
+      "archived": false,
+      "includeArtificialPoints": true
+    },
+    {
+      "id": "mvwv6qi5-ulw2mi",
+      "name": "Paul",
       "archived": false,
       "includeArtificialPoints": true
     }
@@ -12786,12 +12792,32 @@
       ],
       "source": "live",
       "pointsArtificial": false
+    },
+    {
+      "id": "mvwv6qi6-y2yk7m",
+      "playerA": "ms7ypl6l-u1w89h",
+      "playerB": "mvwv6qi5-ulw2mi",
+      "startedAt": "2026-10-31T20:39:22.542Z",
+      "endedAt": null,
+      "setsA": 0,
+      "setsB": 0,
+      "status": "active",
+      "sets": [
+        {
+          "jeuxA": 0,
+          "jeuxB": 0,
+          "winner": null,
+          "rounds": []
+        }
+      ],
+      "source": "live",
+      "pointsArtificial": false
     }
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-10-30T17:58:01.380Z",
-    "lastBackupAt": "2026-10-30T17:58:01.380Z"
+    "contentUpdatedAt": "2026-11-10T18:17:51.693Z",
+    "lastBackupAt": "2026-11-10T18:17:51.693Z"
   },
   "skippedSeeds": [],
   "deviceId": "544cc647-d229-4a0f-ab99-ee80dd2bfa88"
