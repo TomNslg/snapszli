@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-11-12T13:04:01.713Z",
+  "exportedAt": "2026-11-12T13:04:44.553Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -12981,10 +12981,23 @@
               "trumpSuit": "coeur",
               "winnerId": "ms7yppfl-b9gj94",
               "loserId": "ms7ypl6l-u1w89h",
-              "marriages": [],
+              "marriages": [
+                {
+                  "suit": "grelot",
+                  "playerId": "ms7ypl6l-u1w89h"
+                },
+                {
+                  "suit": "coeur",
+                  "playerId": "ms7yppfl-b9gj94"
+                },
+                {
+                  "suit": "feuille",
+                  "playerId": "ms7yppfl-b9gj94"
+                }
+              ],
               "pariPerdu": false,
-              "loserFixed": 53,
-              "leftOut": 0
+              "loserFixed": 14,
+              "leftOut": 99
             }
           ]
         }
@@ -13015,8 +13028,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-11-12T13:04:01.713Z",
-    "lastBackupAt": "2026-11-12T13:04:01.713Z"
+    "contentUpdatedAt": "2026-11-12T13:04:44.553Z",
+    "lastBackupAt": "2026-11-12T13:04:44.553Z"
   },
   "skippedSeeds": [],
   "deviceId": "544cc647-d229-4a0f-ab99-ee80dd2bfa88"
