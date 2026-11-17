@@ -1,7 +1,7 @@
 {
   "kind": "snapszli-backup",
   "version": 1,
-  "exportedAt": "2026-11-17T19:15:35.837Z",
+  "exportedAt": "2026-11-17T19:17:11.137Z",
   "players": [
     {
       "id": "ms7ypl6k-y0pnd4",
@@ -65,37 +65,6 @@
     }
   ],
   "matches": [
-    {
-      "id": "mwl2nxu5-st3b3z",
-      "playerA": "ms7ypl6l-u1w89h",
-      "playerB": "ms7yppfl-b9gj94",
-      "startedAt": "2026-11-17T19:15:10.733Z",
-      "endedAt": null,
-      "setsA": 0,
-      "setsB": 0,
-      "status": "active",
-      "sets": [
-        {
-          "jeuxA": 1,
-          "jeuxB": 0,
-          "winner": null,
-          "rounds": [
-            {
-              "id": "mwl2oh7c-57awwt",
-              "trumpSuit": "feuille",
-              "winnerId": "ms7ypl6l-u1w89h",
-              "loserId": "ms7yppfl-b9gj94",
-              "marriages": [],
-              "pariPerdu": false,
-              "loserFixed": 47,
-              "leftOut": 0
-            }
-          ]
-        }
-      ],
-      "source": "live",
-      "pointsArtificial": false
-    },
     {
       "id": "msk7na73-nyywj4",
       "playerA": "ms7ypl6l-u1w89h",
@@ -12906,6 +12875,37 @@
       "pointsArtificial": false
     },
     {
+      "id": "mwl2nxu5-st3b3z",
+      "playerA": "ms7ypl6l-u1w89h",
+      "playerB": "ms7yppfl-b9gj94",
+      "startedAt": "2026-11-17T19:15:10.733Z",
+      "endedAt": null,
+      "setsA": 0,
+      "setsB": 0,
+      "status": "active",
+      "sets": [
+        {
+          "jeuxA": 1,
+          "jeuxB": 0,
+          "winner": null,
+          "rounds": [
+            {
+              "id": "mwl2oh7c-57awwt",
+              "trumpSuit": "feuille",
+              "winnerId": "ms7ypl6l-u1w89h",
+              "loserId": "ms7yppfl-b9gj94",
+              "marriages": [],
+              "pariPerdu": false,
+              "loserFixed": 47,
+              "leftOut": 0
+            }
+          ]
+        }
+      ],
+      "source": "live",
+      "pointsArtificial": false
+    },
+    {
       "id": "mwdjzvdb-ycc0bi",
       "playerA": "ms7yppfl-b9gj94",
       "playerB": "ms7ypl6l-u1w89h",
@@ -13373,8 +13373,8 @@
   ],
   "settings": {
     "homeIncludeArtificialPoints": false,
-    "contentUpdatedAt": "2026-11-17T19:15:35.837Z",
-    "lastBackupAt": "2026-11-17T19:15:35.837Z"
+    "contentUpdatedAt": "2026-11-17T19:17:11.137Z",
+    "lastBackupAt": "2026-11-17T19:17:11.137Z"
   },
   "skippedSeeds": [],
   "deviceId": "544cc647-d229-4a0f-ab99-ee80dd2bfa88"
